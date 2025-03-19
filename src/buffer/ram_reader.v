@@ -153,9 +153,10 @@ always @(posedge clk) begin
         FSM_FULL_BLOCKS:
             if (M_AXI_ARVALID & M_AXI_ARREADY) begin
 
+                M_AXI_ARADDR <= M_AXI_ARADDR + BURST_BYTES;
+
                 if (ar_blocks < full_blocks) begin
-                    M_AXI_ARADDR <= M_AXI_ARADDR + BURST_BYTES;
-                    ar_blocks    <= ar_blocks + 1;
+                    ar_blocks <= ar_blocks + 1;
                 end
               
                 else if (partial_block_cycles) begin
@@ -163,7 +164,7 @@ always @(posedge clk) begin
                     fsm_state   <= FSM_PARTIAL_BLOCK;
                 end
 
-                else fsm_state  <= FSM_WAIT_FOR_DATA;
+                else fsm_state <= FSM_WAIT_FOR_DATA;
 
             end
 
@@ -182,7 +183,7 @@ always @(posedge clk) begin
 end
 
 // ARVALID is high anytime we're waiting for acceptance on the AR channel
-assign M_AXI_ARVALID = (fsm_state != 0);
+assign M_AXI_ARVALID = (fsm_state == FSM_FULL_BLOCKS || fsm_state == FSM_PARTIAL_BLOCK);
 
 // Tell the outside world whether or not we're idle
 assign idle = (fsm_state == 0) & (start == 0);
