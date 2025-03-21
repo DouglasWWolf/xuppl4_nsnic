@@ -7,43 +7,47 @@
    "No Loops_ExpandedHierarchyInLayout":"",
    "No Loops_Layout":"# # String gsaved with Nlview 7.0r4  2019-12-20 bk=1.5203 VDI=41 GEI=36 GUI=JA:10.0 TLS
 #  -string -flagsOSRD
-preplace port axis_in -pg 1 -lvl 0 -x 0 -y 90 -defaultsOSRD
-preplace port port-id_clk -pg 1 -lvl 0 -x 0 -y 540 -defaultsOSRD
+preplace port axis_in -pg 1 -lvl 0 -x 0 -y 100 -defaultsOSRD
+preplace port port-id_clk -pg 1 -lvl 0 -x 0 -y 570 -defaultsOSRD
 preplace port port-id_resetn -pg 1 -lvl 0 -x 0 -y 20 -defaultsOSRD
-preplace inst axis_switch -pg 1 -lvl 1 -x 150 -y 90 -defaultsOSRD -pinDir axis_in left -pinY axis_in 0L -pinDir axis_out0 right -pinY axis_out0 0R -pinDir axis_out1 right -pinY axis_out1 430R -pinDir clk left -pinY clk 450L -pinDir port_select right -pinY port_select 450R
-preplace inst channel_1 -pg 1 -lvl 2 -x 490 -y 520 -swap {0 1 2 3 4 5 6 7 10 8 9 14 12 20 15 17 16 13 11 18 19} -defaultsOSRD -pinDir AXIS_IN left -pinY AXIS_IN 0L -pinDir AXIS_OUT right -pinY AXIS_OUT 0R -pinDir clk left -pinY clk 60L -pinDir resetn left -pinY resetn 20L -pinBusDir inflow_q left -pinBusY inflow_q 40L -pinDir ram_reader_idle right -pinY ram_reader_idle 80R -pinDir start_ram_reader right -pinY start_ram_reader 40R -pinDir dbg_new_inflow right -pinY dbg_new_inflow 200R -pinBusDir dbg_acks_rcvd right -pinBusY dbg_acks_rcvd 100R -pinBusDir dbg_total_writes right -pinBusY dbg_total_writes 140R -pinBusDir cycles_rcvd right -pinBusY cycles_rcvd 120R -pinDir has_data right -pinY has_data 60R -pinDir inflow_done right -pinY inflow_done 20R -pinBusDir cycles_in_partial_block right -pinBusY cycles_in_partial_block 160R -pinBusDir full_blocks right -pinBusY full_blocks 180R
-preplace inst channel_0 -pg 1 -lvl 2 -x 490 -y 70 -swap {0 1 2 3 4 5 6 7 10 8 9 14 13 11 12} -defaultsOSRD -pinDir AXIS_IN left -pinY AXIS_IN 20L -pinDir AXIS_OUT right -pinY AXIS_OUT 0R -pinDir clk left -pinY clk 80L -pinDir resetn left -pinY resetn 40L -pinBusDir inflow_q left -pinBusY inflow_q 60L -pinDir ram_reader_idle right -pinY ram_reader_idle 80R -pinDir start_ram_reader right -pinY start_ram_reader 60R -pinDir has_data right -pinY has_data 20R -pinDir inflow_done right -pinY inflow_done 40R
-preplace inst switch_ctrl -pg 1 -lvl 2 -x 490 -y 240 -swap {1 0 9 2 8 3 6 5 10 4 7} -defaultsOSRD -pinDir clk left -pinY clk 20L -pinDir resetn left -pinY resetn 0L -pinDir inflow_q right -pinY inflow_q 140R -pinDir has_data0 right -pinY has_data0 0R -pinDir has_data1 right -pinY has_data1 120R -pinDir inflow_done0 right -pinY inflow_done0 20R -pinDir inflow_done1 right -pinY inflow_done1 80R -pinDir ram_reader_idle0 right -pinY ram_reader_idle0 60R -pinDir ram_reader_idle1 right -pinY ram_reader_idle1 160R -pinDir ram_reader_start0 right -pinY ram_reader_start0 40R -pinDir ram_reader_start1 right -pinY ram_reader_start1 100R
-preplace inst system_ila_0 -pg 1 -lvl 3 -x 1040 -y 180 -swap {14 7 0 1 2 3 6 4 5 8 10 11 9 13 12} -defaultsOSRD -pinDir clk left -pinY clk 280L -pinBusDir probe0 left -pinBusY probe0 140L -pinBusDir probe1 left -pinBusY probe1 0L -pinBusDir probe2 left -pinBusY probe2 20L -pinBusDir probe3 left -pinBusY probe3 40L -pinBusDir probe4 left -pinBusY probe4 60L -pinBusDir probe5 left -pinBusY probe5 120L -pinBusDir probe6 left -pinBusY probe6 80L -pinBusDir probe7 left -pinBusY probe7 100L -pinBusDir probe8 left -pinBusY probe8 160L -pinBusDir probe9 left -pinBusY probe9 200L -pinBusDir probe10 left -pinBusY probe10 220L -pinBusDir probe11 left -pinBusY probe11 180L -pinBusDir probe12 left -pinBusY probe12 260L -pinBusDir probe13 left -pinBusY probe13 240L
-preplace inst data_sink -pg 1 -lvl 5 -x 1470 -y 70 -swap {0 1 2 3 5 4} -defaultsOSRD -pinDir AXIS_RX left -pinY AXIS_RX 0L -pinDir clk left -pinY clk 530L -pinDir resetn left -pinY resetn 20L
-preplace inst axis_mux -pg 1 -lvl 4 -x 1260 -y 70 -defaultsOSRD -pinDir axis0 left -pinY axis0 0L -pinDir axis1 left -pinY axis1 450L -pinDir axis_out right -pinY axis_out 0R -pinDir clk left -pinY clk 470L
-preplace netloc channel_0_ram_reader_idle 1 2 1 680 150n
-preplace netloc channel_1_cycles_rcvd 1 2 1 860 380n
-preplace netloc channel_1_dbg_acks_rcvd 1 2 1 840 360n
-preplace netloc channel_1_dbg_total_writes 1 2 1 880 400n
-preplace netloc channel_1_ram_reader_idle 1 2 1 820 340n
-preplace netloc pcie_bridge_axi_aclk 1 0 5 20 600 320 770 940 540 1140 600 N
-preplace netloc resetn_1 1 0 5 NJ 20 300 10 N 10 N 10 1380
-preplace netloc start_ram_reader_0 1 2 1 700 130n
-preplace netloc start_ram_reader_1 1 2 1 760 280n
-preplace netloc stream_to_ram_0_done 1 2 1 720 110n
-preplace netloc stream_to_ram_0_has_data 1 2 1 660 90n
-preplace netloc stream_to_ram_1_done 1 2 1 740 260n
-preplace netloc stream_to_ram_1_has_data 1 2 1 800 300n
-preplace netloc switch_ctrl_0_inflow_q 1 1 2 280 460 780
-preplace netloc channel_1_full_blocks 1 2 1 920 440n
-preplace netloc channel_1_cycles_in_partial_block 1 2 1 900 420n
-preplace netloc axis_switch_axis_out0 1 1 1 N 90
-preplace netloc axis_switch_axis_out1 1 1 1 N 520
-preplace netloc data_gen_axis 1 0 1 NJ 90
-preplace netloc axis_mux_axis_out 1 4 1 N 70
-preplace netloc channel_0_AXIS_OUT 1 2 2 NJ 70 N
-preplace netloc channel_1_AXIS_OUT 1 2 2 N 520 NJ
-levelinfo -pg 1 0 150 490 1040 1260 1470 1560
-pagesize -pg 1 -db -bbox -sgen -100 0 1560 780
+preplace portBus hwm_0 -pg 1 -lvl 0 -x 0 -y 40 -defaultsOSRD -left
+preplace portBus hwm_1 -pg 1 -lvl 0 -x 0 -y 630 -defaultsOSRD -left
+preplace inst axis_switch -pg 1 -lvl 1 -x 150 -y 100 -defaultsOSRD -pinDir axis_in left -pinY axis_in 0L -pinDir axis_out0 right -pinY axis_out0 0R -pinDir axis_out1 right -pinY axis_out1 450R -pinDir clk left -pinY clk 470L -pinDir port_select right -pinY port_select 470R
+preplace inst channel_1 -pg 1 -lvl 2 -x 520 -y 550 -swap {0 1 2 3 4 5 6 7 21 8 9 12 13 20 15 16 17 14 11 19 18 10} -defaultsOSRD -pinDir AXIS_IN left -pinY AXIS_IN 0L -pinDir AXIS_OUT right -pinY AXIS_OUT 0R -pinDir clk left -pinY clk 100L -pinDir resetn left -pinY resetn 20L -pinBusDir inflow_q left -pinBusY inflow_q 40L -pinDir ram_reader_idle right -pinY ram_reader_idle 40R -pinDir start_ram_reader right -pinY start_ram_reader 60R -pinDir dbg_new_inflow right -pinY dbg_new_inflow 200R -pinBusDir dbg_acks_rcvd right -pinBusY dbg_acks_rcvd 100R -pinBusDir dbg_total_writes right -pinBusY dbg_total_writes 120R -pinBusDir cycles_rcvd right -pinBusY cycles_rcvd 140R -pinDir has_data right -pinY has_data 80R -pinDir inflow_done right -pinY inflow_done 20R -pinBusDir cycles_in_partial_block right -pinBusY cycles_in_partial_block 180R -pinBusDir full_blocks right -pinBusY full_blocks 160R -pinBusDir high_water_mark left -pinBusY high_water_mark 80L
+preplace inst channel_0 -pg 1 -lvl 2 -x 520 -y 100 -swap {0 1 2 3 4 5 6 7 15 8 10 13 12 14 11 9} -defaultsOSRD -pinDir AXIS_IN left -pinY AXIS_IN 0L -pinDir AXIS_OUT right -pinY AXIS_OUT 0R -pinDir clk left -pinY clk 80L -pinDir resetn left -pinY resetn 20L -pinBusDir inflow_q left -pinBusY inflow_q 60L -pinDir ram_reader_idle right -pinY ram_reader_idle 60R -pinDir start_ram_reader right -pinY start_ram_reader 40R -pinDir has_data right -pinY has_data 80R -pinDir inflow_done right -pinY inflow_done 20R -pinBusDir high_water_mark left -pinBusY high_water_mark 40L
+preplace inst switch_ctrl -pg 1 -lvl 2 -x 520 -y 270 -swap {1 0 6 5 10 2 7 4 8 3 9} -defaultsOSRD -pinDir clk left -pinY clk 20L -pinDir resetn left -pinY resetn 0L -pinDir inflow_q right -pinY inflow_q 80R -pinDir has_data0 right -pinY has_data0 60R -pinDir has_data1 right -pinY has_data1 160R -pinDir inflow_done0 right -pinY inflow_done0 0R -pinDir inflow_done1 right -pinY inflow_done1 100R -pinDir ram_reader_idle0 right -pinY ram_reader_idle0 40R -pinDir ram_reader_idle1 right -pinY ram_reader_idle1 120R -pinDir ram_reader_start0 right -pinY ram_reader_start0 20R -pinDir ram_reader_start1 right -pinY ram_reader_start1 140R
+preplace inst system_ila_0 -pg 1 -lvl 3 -x 1100 -y 210 -swap {14 4 3 0 1 2 8 5 7 6 11 10 9 12 13} -defaultsOSRD -pinDir clk left -pinY clk 280L -pinBusDir probe0 left -pinBusY probe0 80L -pinBusDir probe1 left -pinBusY probe1 60L -pinBusDir probe2 left -pinBusY probe2 0L -pinBusDir probe3 left -pinBusY probe3 20L -pinBusDir probe4 left -pinBusY probe4 40L -pinBusDir probe5 left -pinBusY probe5 160L -pinBusDir probe6 left -pinBusY probe6 100L -pinBusDir probe7 left -pinBusY probe7 140L -pinBusDir probe8 left -pinBusY probe8 120L -pinBusDir probe9 left -pinBusY probe9 220L -pinBusDir probe10 left -pinBusY probe10 200L -pinBusDir probe11 left -pinBusY probe11 180L -pinBusDir probe12 left -pinBusY probe12 240L -pinBusDir probe13 left -pinBusY probe13 260L
+preplace inst data_sink -pg 1 -lvl 5 -x 1530 -y 100 -swap {0 1 2 3 5 4} -defaultsOSRD -pinDir AXIS_RX left -pinY AXIS_RX 0L -pinDir clk left -pinY clk 530L -pinDir resetn left -pinY resetn 20L
+preplace inst axis_mux -pg 1 -lvl 4 -x 1320 -y 100 -defaultsOSRD -pinDir axis0 left -pinY axis0 0L -pinDir axis1 left -pinY axis1 450L -pinDir axis_out right -pinY axis_out 0R -pinDir clk left -pinY clk 470L
+preplace netloc channel_0_ram_reader_idle 1 2 1 760 160n
+preplace netloc channel_1_cycles_in_partial_block 1 2 1 980 470n
+preplace netloc channel_1_cycles_rcvd 1 2 1 940 430n
+preplace netloc channel_1_dbg_acks_rcvd 1 2 1 900 390n
+preplace netloc channel_1_dbg_total_writes 1 2 1 920 410n
+preplace netloc channel_1_full_blocks 1 2 1 960 450n
+preplace netloc channel_1_ram_reader_idle 1 2 1 840 330n
+preplace netloc pcie_bridge_axi_aclk 1 0 5 20 650 320 800 1000 570 1200 630 N
+preplace netloc resetn_1 1 0 5 NJ 20 300 40 N 40 N 40 1440
+preplace netloc start_ram_reader_0 1 2 1 780 140n
+preplace netloc start_ram_reader_1 1 2 1 860 350n
+preplace netloc stream_to_ram_0_done 1 2 1 720 120n
+preplace netloc stream_to_ram_0_has_data 1 2 1 740 180n
+preplace netloc stream_to_ram_1_done 1 2 1 820 310n
+preplace netloc stream_to_ram_1_has_data 1 2 1 880 370n
+preplace netloc switch_ctrl_0_inflow_q 1 1 2 280 490 800
+preplace netloc channel_0_high_water_mark 1 0 2 N 40 280
+preplace netloc channel_1_high_water_mark 1 0 2 N 630 N
+preplace netloc axis_mux_axis_out 1 4 1 N 100
+preplace netloc axis_switch_axis_out0 1 1 1 N 100
+preplace netloc axis_switch_axis_out1 1 1 1 N 550
+preplace netloc channel_0_AXIS_OUT 1 2 2 NJ 100 N
+preplace netloc channel_1_AXIS_OUT 1 2 2 N 550 NJ
+preplace netloc data_gen_axis 1 0 1 NJ 100
+levelinfo -pg 1 0 150 520 1100 1320 1530 1620
+pagesize -pg 1 -db -bbox -sgen -150 0 1620 810
 ",
-   "No Loops_ScaleFactor":"0.881182",
-   "No Loops_TopLeft":"-98,-20",
+   "No Loops_ScaleFactor":"0.828701",
+   "No Loops_TopLeft":"-144,-30",
    "guistr":"# # String gsaved with Nlview 7.0r4  2019-12-20 bk=1.5203 VDI=41 GEI=36 GUI=JA:10.0 TLS
 #  -string -flagsOSRD
 preplace port axis_in -pg 1 -lvl 0 -x 0 -y 50 -defaultsOSRD

@@ -41,6 +41,9 @@ module stream_to_ram # (parameter DW=512, CHANNEL = 0)
     // This goes high when after the final burst of data is written to RAM
     output done,
 
+    // The high-water mark of RAM usage
+    output reg[63:0] hwm,
+
     // Input stream 
     input [DW-1:0] AXIS_IN_TDATA,
     input          AXIS_IN_TVALID,
@@ -120,6 +123,22 @@ wire fpdout_tvalid;
 
 // This will be a '1' on any cycle where a data-transfer is happening in the input stream
 wire axis_xfer = (AXIS_IN_TVALID & AXIS_IN_TREADY);
+
+
+//=============================================================================
+// Keep track of the high-water mark of RAM usage
+//=============================================================================
+wire[63:0] ram_usage = (M_AXI_AWADDR - RAM_BASE_ADDR) + BURST_BYTES;
+//-----------------------------------------------------------------------------
+always @(posedge clk) begin
+    if (resetn == 0) 
+        hwm <= 0;
+    else if (M_AXI_AWVALID & M_AXI_AWREADY & (ram_usage > hwm))
+        hwm <= ram_usage;
+end
+//=============================================================================
+
+
 
 //=============================================================================
 // Keep track of the prior state of inflow_q

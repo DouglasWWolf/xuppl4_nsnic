@@ -8,27 +8,28 @@
    "No Loops_Layout":"# # String gsaved with Nlview 7.0r4  2019-12-20 bk=1.5203 VDI=41 GEI=36 GUI=JA:10.0 TLS
 #  -string -flagsOSRD
 preplace port AXIS_IN -pg 1 -lvl 0 -x 0 -y 60 -defaultsOSRD
-preplace port AXIS_OUT -pg 1 -lvl 3 -x 660 -y 340 -defaultsOSRD
-preplace port port-id_clk -pg 1 -lvl 0 -x 0 -y 180 -defaultsOSRD
-preplace port port-id_resetn -pg 1 -lvl 0 -x 0 -y 200 -defaultsOSRD
-preplace port port-id_ram_reader_idle -pg 1 -lvl 3 -x 660 -y 510 -defaultsOSRD
-preplace port port-id_start_ram_reader -pg 1 -lvl 0 -x 0 -y 380 -defaultsOSRD
+preplace port AXIS_OUT -pg 1 -lvl 3 -x 660 -y 360 -defaultsOSRD
+preplace port port-id_clk -pg 1 -lvl 0 -x 0 -y 200 -defaultsOSRD
+preplace port port-id_resetn -pg 1 -lvl 0 -x 0 -y 220 -defaultsOSRD
+preplace port port-id_ram_reader_idle -pg 1 -lvl 3 -x 660 -y 530 -defaultsOSRD
+preplace port port-id_start_ram_reader -pg 1 -lvl 0 -x 0 -y 400 -defaultsOSRD
 preplace port port-id_dbg_new_inflow -pg 1 -lvl 3 -x 660 -y 80 -defaultsOSRD
 preplace port port-id_has_data -pg 1 -lvl 3 -x 660 -y 200 -defaultsOSRD
 preplace port port-id_inflow_done -pg 1 -lvl 3 -x 660 -y 220 -defaultsOSRD
-preplace portBus inflow_q -pg 1 -lvl 0 -x 0 -y 220 -defaultsOSRD
+preplace portBus inflow_q -pg 1 -lvl 0 -x 0 -y 240 -defaultsOSRD
 preplace portBus dbg_acks_rcvd -pg 1 -lvl 3 -x 660 -y 100 -defaultsOSRD
 preplace portBus dbg_total_writes -pg 1 -lvl 3 -x 660 -y 120 -defaultsOSRD
 preplace portBus cycles_rcvd -pg 1 -lvl 3 -x 660 -y 140 -defaultsOSRD
 preplace portBus cycles_in_partial_block -pg 1 -lvl 3 -x 660 -y 180 -defaultsOSRD
 preplace portBus full_blocks -pg 1 -lvl 3 -x 660 -y 160 -defaultsOSRD
-preplace inst bram -pg 1 -lvl 2 -x 550 -y 400 -defaultsOSRD -pinDir WR_AXI left -pinY WR_AXI 0L -pinDir RD_AXI left -pinY RD_AXI 20L -pinDir clk left -pinY clk 40L -pinDir resetn left -pinY resetn 60L
-preplace inst ram_reader -pg 1 -lvl 1 -x 220 -y 340 -defaultsOSRD -pinDir AXIS_OUT right -pinY AXIS_OUT 0R -pinDir M_AXI right -pinY M_AXI 80R -pinDir clk left -pinY clk 0L -pinDir resetn left -pinY resetn 20L -pinBusDir full_blocks right -pinBusY full_blocks 100R -pinBusDir partial_block_cycles right -pinBusY partial_block_cycles 120R -pinDir start left -pinY start 40L -pinDir idle right -pinY idle 170R
-preplace inst stream_to_ram -pg 1 -lvl 1 -x 220 -y 60 -defaultsOSRD -pinDir AXIS_IN left -pinY AXIS_IN 0L -pinDir M_AXI right -pinY M_AXI 0R -pinDir dbg_new_inflow right -pinY dbg_new_inflow 20R -pinBusDir dbg_acks_rcvd right -pinBusY dbg_acks_rcvd 40R -pinBusDir dbg_total_writes right -pinBusY dbg_total_writes 60R -pinDir clk left -pinY clk 120L -pinDir resetn left -pinY resetn 140L -pinDir inflow_q left -pinY inflow_q 160L -pinBusDir cycles_rcvd right -pinBusY cycles_rcvd 80R -pinBusDir full_blocks right -pinBusY full_blocks 100R -pinBusDir cycles_in_partial_block right -pinBusY cycles_in_partial_block 120R -pinDir has_data right -pinY has_data 140R -pinDir done right -pinY done 160R
-preplace netloc pcie_bridge_axi_aclk 1 0 2 40 280 420
-preplace netloc ram_reader_0_idle 1 1 2 NJ 510 NJ
-preplace netloc resetn_1 1 0 2 20 570 460J
-preplace netloc start_ram_reader_1 1 0 1 NJ 380
+preplace portBus high_water_mark -pg 1 -lvl 3 -x 660 -y 240 -defaultsOSRD
+preplace inst bram -pg 1 -lvl 2 -x 550 -y 420 -defaultsOSRD -pinDir WR_AXI left -pinY WR_AXI 0L -pinDir RD_AXI left -pinY RD_AXI 20L -pinDir clk left -pinY clk 40L -pinDir resetn left -pinY resetn 60L
+preplace inst ram_reader -pg 1 -lvl 1 -x 220 -y 360 -defaultsOSRD -pinDir AXIS_OUT right -pinY AXIS_OUT 0R -pinDir M_AXI right -pinY M_AXI 80R -pinDir clk left -pinY clk 0L -pinDir resetn left -pinY resetn 20L -pinBusDir full_blocks right -pinBusY full_blocks 100R -pinBusDir partial_block_cycles right -pinBusY partial_block_cycles 120R -pinDir start left -pinY start 40L -pinDir idle right -pinY idle 170R
+preplace inst stream_to_ram -pg 1 -lvl 1 -x 220 -y 60 -defaultsOSRD -pinDir AXIS_IN left -pinY AXIS_IN 0L -pinDir M_AXI right -pinY M_AXI 0R -pinDir dbg_new_inflow right -pinY dbg_new_inflow 20R -pinBusDir dbg_acks_rcvd right -pinBusY dbg_acks_rcvd 40R -pinBusDir dbg_total_writes right -pinBusY dbg_total_writes 60R -pinDir clk left -pinY clk 140L -pinDir resetn left -pinY resetn 160L -pinDir inflow_q left -pinY inflow_q 180L -pinBusDir cycles_rcvd right -pinBusY cycles_rcvd 80R -pinBusDir full_blocks right -pinBusY full_blocks 100R -pinBusDir cycles_in_partial_block right -pinBusY cycles_in_partial_block 120R -pinDir has_data right -pinY has_data 140R -pinDir done right -pinY done 160R -pinBusDir hwm right -pinBusY hwm 180R
+preplace netloc pcie_bridge_axi_aclk 1 0 2 40 300 420
+preplace netloc ram_reader_0_idle 1 1 2 NJ 530 NJ
+preplace netloc resetn_1 1 0 2 20 590 460J
+preplace netloc start_ram_reader_1 1 0 1 NJ 400
 preplace netloc stream_to_ram_cycles_in_partial_block 1 1 2 440 180 NJ
 preplace netloc stream_to_ram_cycles_rcvd 1 1 2 NJ 140 NJ
 preplace netloc stream_to_ram_dbg_acks_rcvd 1 1 2 NJ 100 NJ
@@ -37,16 +38,17 @@ preplace netloc stream_to_ram_dbg_total_writes 1 1 2 NJ 120 NJ
 preplace netloc stream_to_ram_done 1 1 2 NJ 220 NJ
 preplace netloc stream_to_ram_full_blocks 1 1 2 400 160 NJ
 preplace netloc stream_to_ram_has_data 1 1 2 NJ 200 NJ
-preplace netloc switch_ctrl_0_inflow_q 1 0 1 NJ 220
+preplace netloc switch_ctrl_0_inflow_q 1 0 1 NJ 240
+preplace netloc stream_to_ram_hwm 1 1 2 NJ 240 NJ
 preplace netloc S_AXI_1 1 1 1 460 60n
 preplace netloc axis_switch_axis_out1 1 0 1 NJ 60
-preplace netloc ram_reader_0_M_AXI 1 1 1 N 420
-preplace netloc ram_reader_AXIS_OUT 1 1 2 NJ 340 NJ
+preplace netloc ram_reader_0_M_AXI 1 1 1 N 440
+preplace netloc ram_reader_AXIS_OUT 1 1 2 NJ 360 NJ
 levelinfo -pg 1 0 220 550 660
-pagesize -pg 1 -db -bbox -sgen -180 0 910 580
+pagesize -pg 1 -db -bbox -sgen -180 0 910 600
 ",
    "No Loops_ScaleFactor":"1.0",
-   "No Loops_TopLeft":"-363,-71",
+   "No Loops_TopLeft":"-363,-47",
    "guistr":"# # String gsaved with Nlview 7.0r4  2019-12-20 bk=1.5203 VDI=41 GEI=36 GUI=JA:10.0 TLS
 #  -string -flagsOSRD
 preplace port SLOT_0_AXIS -pg 1 -lvl 0 -x 0 -y 50 -defaultsOSRD

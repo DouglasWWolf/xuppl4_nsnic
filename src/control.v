@@ -22,6 +22,9 @@ module control # (parameter AW=8)
     output reg[31:0] cycle_count,
     output reg       start,
 
+    // These are the high-water mark of RAM usage for each RAM bank
+    input[63:0] hwm_0, hwm_1,
+
     //================== This is an AXI4-Lite slave interface ==================
         
     // "Specify write address"              -- Master --    -- Slave --
@@ -57,6 +60,11 @@ module control # (parameter AW=8)
 
 //=========================  AXI Register Map  =============================
 localparam REG_CYCLE_COUNT = 0;
+localparam REG_HWMARK_0H   = 1;
+localparam REG_HWMARK_0L   = 2;
+localparam REG_HWMARK_1H   = 3;
+localparam REG_HWMARK_1L   = 4;
+
 //==========================================================================
 
 
@@ -160,6 +168,11 @@ always @(posedge clk) begin
             
             // Allow a read from any valid register                
             REG_CYCLE_COUNT:    ashi_rdata <= cycle_count;
+            REG_HWMARK_0H:      ashi_rdata <= hwm_0[63:32];
+            REG_HWMARK_0L:      ashi_rdata <= hwm_0[31:00];
+            REG_HWMARK_1H:      ashi_rdata <= hwm_1[63:32];
+            REG_HWMARK_1L:      ashi_rdata <= hwm_1[31:00];
+
 
             // Reads of any other register are a decode-error
             default: ashi_rresp <= DECERR;
