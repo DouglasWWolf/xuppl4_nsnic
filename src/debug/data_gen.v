@@ -8,23 +8,33 @@ module data_gen # (parameter DW=512)
 
     output[DW-1:0] axis_tdata,
     output         axis_tvalid,
+    output         axis_tlast,
     input          axis_tready
 );
 
 reg[15:0] data;
 reg[31:0] cycles_out;
 reg[ 3:0] fsm_state;
+reg[ 1:0] cycle_within_packet;
 
 assign axis_tvalid = (fsm_state == 1);
 
 wire xfer = axis_tvalid & axis_tready;
 
 always @(posedge clk) begin
-    if (resetn == 0 || start)
+    
+    if (resetn == 0 || start) begin
+        cycle_within_packet <= 0;
         data <= 0;
-    else if (xfer)
+    end
+    
+    else if (xfer) begin
         data <= data + 1;
+        cycle_within_packet <= cycle_within_packet + 1;
+    end
 end
+
+assign axis_tlast = (cycle_within_packet == 3) & axis_tvalid;
 
 assign axis_tdata = {(DW/2){data}};
 

@@ -17,8 +17,8 @@ module stream_to_ram # (parameter DW=512, CHANNEL = 0)
 (
     `ifdef DEBUG
         output       dbg_new_inflow,
-        output[31:0] dbg_full_blocks,
-        output[ 7:0] dbg_cycles_in_partial_block,
+        output[31:0] dbg_acks_rcvd,
+        output[31:0] dbg_total_writes,
     `endif
 
     input   clk, resetn,
@@ -26,7 +26,14 @@ module stream_to_ram # (parameter DW=512, CHANNEL = 0)
     // If this matches CHANNEL, data is currently flowing in to us.
     input   inflow_q,
 
+    // The total number of data-cycles received on the input
     output[31:0] cycles_rcvd,
+
+    // The total number of full blocks in the incoming data
+    output[31:0] full_blocks,
+
+    // The number of cycles in the (potential) partial-boock at the end
+    output[ 7:0] cycles_in_partial_block,
 
     // This will go high when we receive our first cycle of input data
     output has_data,
@@ -150,17 +157,18 @@ end
 
 // This is the number of data-cycles received including the one being received
 // right now (if there is one)
-assign cycles_rcvd = (resetn == 0) ? 0 :
-                     (new_inflow ) ? axis_xfer : (cycles_rcvd_reg + axis_xfer);
+assign cycles_rcvd = (resetn == 0) ? 0
+                   : (new_inflow ) ? axis_xfer
+                   : (cycles_rcvd_reg + axis_xfer);
 
 // How many full blocks of data have we received?
-wire[31:0] full_blocks = cycles_rcvd / CYCLES_PER_RAM_BLOCK;
+assign full_blocks = cycles_rcvd / CYCLES_PER_RAM_BLOCK;
 
 // How many cycles are in the partial block at the end?
-wire[7:0] cycles_in_partial_block = (inflow_q == CHANNEL) ? 0 : cycles_rcvd % CYCLES_PER_RAM_BLOCK;
+assign cycles_in_partial_block = (inflow_q == CHANNEL) ? 0 : cycles_rcvd % CYCLES_PER_RAM_BLOCK;
 
 // This is the total number of bursts that will be written to RAM
-wire[31:0] total_writes = full_blocks + (cycles_in_partial_block) ? 1 : 0;
+wire[31:0] total_writes = full_blocks + (cycles_in_partial_block > 0);
 
 // The number of write requests (for full blocks of data) issued on channel AW
 reg[31:0] aw_blocks;
@@ -246,8 +254,12 @@ always @(posedge clk) begin
                 cycles_remaining_in_block <= cycles_in_partial_block;
                 wsm_state                 <= 2;
             end
-        
+
+        // Output bursts of data until w_blocks = full_blocks        
         1:  if (M_AXI_WVALID & M_AXI_WREADY) begin
+
+                cycles_remaining_in_block <= cycles_remaining_in_block - 1;
+
                 if (M_AXI_WLAST) begin
                     if (w_blocks == full_blocks)
                         wsm_state <= 0;
@@ -257,10 +269,9 @@ always @(posedge clk) begin
                     end
                 end
 
-                cycles_remaining_in_block <= cycles_remaining_in_block - 1;
             end
 
-
+        // Wait for the last partial-block of data to be written
         2:  if (M_AXI_WVALID & M_AXI_WREADY) begin
                 if (M_AXI_WLAST) begin
                     wsm_state <= 3;
@@ -397,9 +408,9 @@ packet_data_fifo
 // Output fields for debugging
 //=============================================================================
 `ifdef DEBUG
-    assign dbg_new_inflow              = new_inflow;
-    assign dbg_full_blocks             = full_blocks;
-    assign dbg_cycles_in_partial_block = cycles_in_partial_block;
+    assign dbg_new_inflow   = new_inflow;
+    assign dbg_acks_rcvd    = acks_rcvd;
+    assign dbg_total_writes = total_writes;
 `endif
 //=============================================================================
 
