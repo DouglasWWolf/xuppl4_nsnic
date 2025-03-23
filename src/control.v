@@ -19,11 +19,25 @@ module control # (parameter AW=8)
 (
     input clk, resetn,
 
-    output reg[31:0] cycle_count,
+    output reg[31:0] packet_count,
     output reg       start,
+
+    // When this is a '1', input packets are routed back out the QSFP port
+    output reg       loopback,
 
     // These are the high-water mark of RAM usage for each RAM bank
     input[63:0] hwm_0, hwm_1,
+
+    // The min and max valid addresses for PCI writes
+    output reg[63:0] pci_range_min, pci_range_max,
+
+
+    // We use this to monitor the output of the buffer for sequence errors
+    (* X_INTERFACE_MODE = "monitor" *)
+    input[511:0] seq_axis_tdata,
+    input        seq_axis_tvalid,
+    input        seq_axis_tlast,
+    input        seq_axis_tready,
 
     //================== This is an AXI4-Lite slave interface ==================
         
@@ -59,12 +73,17 @@ module control # (parameter AW=8)
 );  
 
 //=========================  AXI Register Map  =============================
-localparam REG_CYCLE_COUNT = 0;
-localparam REG_HWMARK_0H   = 1;
-localparam REG_HWMARK_0L   = 2;
-localparam REG_HWMARK_1H   = 3;
-localparam REG_HWMARK_1L   = 4;
-
+localparam REG_PACKET_COUNT =  0;
+localparam REG_HWMARK_0H    =  1;
+localparam REG_HWMARK_0L    =  2;
+localparam REG_HWMARK_1H    =  3;
+localparam REG_HWMARK_1L    =  4;
+localparam REG_PCI_MIN_H    =  5;
+localparam REG_PCI_MIN_L    =  6;
+localparam REG_PCI_MAX_H    =  7;
+localparam REG_PCI_MAX_L    =  8;
+localparam REG_LOOPBACK     =  9;
+localparam REG_ERRORS       = 10;
 //==========================================================================
 
 
@@ -103,6 +122,36 @@ localparam DECERR = 3;
 // The address mask is 'AW' 1-bits in a row
 localparam ADDR_MASK = (1 << AW) - 1;
 
+
+// This will be a 1 when a sequence error of detected
+reg seq_error;
+
+//=============================================================================
+// This block monitors for sequence errors
+//
+// When packets are generated with the built-in packet generator, the high
+// 32 bits of TDATA always contain a counter.  If any data cycle occurs where
+// that counter is wrong, it indicates that something went awry in the buffer.
+//=============================================================================
+wire[31:0] seq_data = seq_axis_tdata[64*8-1 -: 32];
+reg [31:0] seq_prior;
+//-----------------------------------------------------------------------------
+always @(posedge clk) begin
+    if (resetn == 0)
+        seq_error <= 0;
+
+    else if (seq_axis_tvalid & seq_axis_tready) begin
+
+        if (seq_data != 0 && seq_data != (seq_prior+1))
+            seq_error <= 1;
+
+        seq_prior <= seq_data;
+
+    end
+end
+//=============================================================================
+
+
 //==========================================================================
 // This state machine handles AXI4-Lite write requests
 //==========================================================================
@@ -113,9 +162,13 @@ always @(posedge clk) begin
     // If we're in reset, initialize important registers
     if (resetn == 0) begin
         ashi_write_state  <= 0;
-
+        pci_range_min <= 64'h1_0000_0000;
+        pci_range_max <= 64'h1_FFFF_FFFF;
+        loopback      <= 0;
+    end
+    
     // Otherwise, we're not in reset...
-    end else case (ashi_write_state)
+    else case (ashi_write_state)
         
         // If an AXI write-request has occured...
         0:  if (ashi_write) begin
@@ -126,11 +179,17 @@ always @(posedge clk) begin
                 // ashi_windex = index of register to be written
                 case (ashi_windx)
                
-                    REG_CYCLE_COUNT:
+                    REG_PACKET_COUNT:
                         begin
-                            cycle_count <= ashi_wdata;
+                            packet_count <= ashi_wdata;
                             start       <= 1;
                         end
+
+                    REG_PCI_MAX_H:  pci_range_max[63:32] <= ashi_wdata;
+                    REG_PCI_MAX_L:  pci_range_max[31:00] <= ashi_wdata;                    
+                    REG_PCI_MIN_H:  pci_range_min[63:32] <= ashi_wdata;
+                    REG_PCI_MIN_L:  pci_range_min[31:00] <= ashi_wdata; 
+                    REG_LOOPBACK:   loopback             <= ashi_wdata;                   
 
                     // Writes to any other register are a decode-error
                     default: ashi_wresp <= DECERR;
@@ -167,12 +226,17 @@ always @(posedge clk) begin
         case (ashi_rindx)
             
             // Allow a read from any valid register                
-            REG_CYCLE_COUNT:    ashi_rdata <= cycle_count;
+            REG_PACKET_COUNT:   ashi_rdata <= packet_count;
             REG_HWMARK_0H:      ashi_rdata <= hwm_0[63:32];
             REG_HWMARK_0L:      ashi_rdata <= hwm_0[31:00];
             REG_HWMARK_1H:      ashi_rdata <= hwm_1[63:32];
             REG_HWMARK_1L:      ashi_rdata <= hwm_1[31:00];
-
+            REG_PCI_MIN_H:      ashi_rdata <= pci_range_min[63:32];
+            REG_PCI_MIN_L:      ashi_rdata <= pci_range_min[31:00];
+            REG_PCI_MAX_H:      ashi_rdata <= pci_range_max[63:32];
+            REG_PCI_MAX_L:      ashi_rdata <= pci_range_max[31:00];
+            REG_LOOPBACK:       ashi_rdata <= loopback;
+            REG_ERRORS:         ashi_rdata <= seq_error;
 
             // Reads of any other register are a decode-error
             default: ashi_rresp <= DECERR;

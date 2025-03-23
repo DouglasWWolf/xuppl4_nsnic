@@ -13,7 +13,7 @@
 
 `define DEBUG
 
-module stream_to_ram # (parameter DW=512, CHANNEL = 0)
+module stream_to_ram # (parameter DW=512, IW=5, CHANNEL = 0)
 (
     `ifdef DEBUG
         output       dbg_new_inflow,
@@ -55,7 +55,7 @@ module stream_to_ram # (parameter DW=512, CHANNEL = 0)
     output reg [63:0]                        M_AXI_AWADDR,
     output reg [7:0]                         M_AXI_AWLEN,
     output     [2:0]                         M_AXI_AWSIZE,
-    output     [3:0]                         M_AXI_AWID,
+    output     [IW-1:0]                      M_AXI_AWID,
     output     [1:0]                         M_AXI_AWBURST,
     output                                   M_AXI_AWLOCK,
     output     [3:0]                         M_AXI_AWCACHE,
@@ -81,7 +81,7 @@ module stream_to_ram # (parameter DW=512, CHANNEL = 0)
     output                                  M_AXI_ARVALID,
     output[2:0]                             M_AXI_ARPROT,
     output                                  M_AXI_ARLOCK,
-    output[3:0]                             M_AXI_ARID,
+    output[IW-1:0]                          M_AXI_ARID,
     output[7:0]                             M_AXI_ARLEN,
     output[2:0]                             M_AXI_ARSIZE,
     output[1:0]                             M_AXI_ARBURST,

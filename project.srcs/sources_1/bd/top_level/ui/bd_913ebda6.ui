@@ -21,15 +21,15 @@ preplace inst ddr_widget -pg 1 -lvl 1 -x 220 -y 500 -swap {1 2 0} -defaultsOSRD 
 preplace netloc aclk_1 1 0 2 40 340 NJ
 preplace netloc aresetn_1 1 0 2 20 360 NJ
 preplace netloc ddr4_c0_ddr4_ui_clk 1 2 1 720J 380n
-preplace netloc ddr_widget_0_zero 1 1 2 N 500 NJ
-preplace netloc ddr_widget_0_ddr_resetn_out 1 1 2 360 540 N
 preplace netloc ddr4_c0_ddr4_ui_clk_sync_rst 1 1 2 NJ 520 NJ
-preplace netloc WR_AXI_1 1 0 1 80 60n
+preplace netloc ddr_widget_0_ddr_resetn_out 1 1 2 360 540 N
+preplace netloc ddr_widget_0_zero 1 1 2 N 500 NJ
 preplace netloc RD_AXI_1 1 0 1 60 80n
-preplace netloc axi_crossbar_M00_AXI 1 1 1 N 280
+preplace netloc WR_AXI_1 1 0 1 80 60n
 preplace netloc axi_clock_converter_M_AXI 1 2 1 N 360
-preplace netloc ddr4_clk_1 1 0 3 NJ 440 NJ 440 NJ
+preplace netloc axi_crossbar_M00_AXI 1 1 1 N 280
 preplace netloc ddr4_C0_DDR4 1 3 1 N 360
+preplace netloc ddr4_clk_1 1 0 3 NJ 440 NJ 440 NJ
 levelinfo -pg 1 0 220 540 910 1120
 pagesize -pg 1 -db -bbox -sgen -110 0 1210 600
 ",
@@ -64,4 +64,4 @@ levelinfo -pg 1 0 200 550 880 1080
 pagesize -pg 1 -db -bbox -sgen -110 0 1160 660
 "
 }
-
+0

@@ -2,32 +2,43 @@
    "ActiveEmotionalView":"No Loops",
    "Default View_ScaleFactor":"1.0",
    "Default View_TopLeft":"-378,-202",
+   "Display-PortTypeClock":"false",
+   "Display-PortTypeReset":"false",
    "DisplayTieOff":"1",
    "ExpandedHierarchyInLayout":"",
+   "HideNet":"/pcie_bridge/util_ds_buf_0_IBUF_DS_ODIV2|/pcie_bridge/util_ds_buf_0_IBUF_OUT|/pcie_bridge/pcie_bridge_axi_aclk|/pcie_bridge/pcie_bridge_axi_aresetn|",
    "No Loops_ExpandedHierarchyInLayout":"",
+   "No Loops_Layers":"/pcie_bridge/pcie_bridge_axi_aclk:false|/pcie_bridge/util_ds_buf_0_IBUF_OUT:false|/pcie_bridge/util_ds_buf_0_IBUF_DS_ODIV2:false|/pcie_bridge/pcie_bridge_axi_aresetn:false|",
    "No Loops_Layout":"# # String gsaved with Nlview 7.0r4  2019-12-20 bk=1.5203 VDI=41 GEI=36 GUI=JA:10.0 TLS
 #  -string -flagsOSRD
-preplace port pcie_mgt_0 -pg 1 -lvl 3 -x 690 -y 60 -defaultsOSRD
-preplace port pcie_refclk -pg 1 -lvl 0 -x 0 -y 180 -defaultsOSRD
-preplace port M_AXI_B -pg 1 -lvl 3 -x 690 -y 80 -defaultsOSRD
-preplace port port-id_axi_aclk -pg 1 -lvl 3 -x 690 -y 140 -defaultsOSRD
-preplace port port-id_axi_aresetn -pg 1 -lvl 3 -x 690 -y 160 -defaultsOSRD
-preplace inst pcie_bridge -pg 1 -lvl 2 -x 500 -y 60 -swap {56 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27 28 29 30 31 32 33 34 35 36 37 38 39 40 41 42 43 44 45 46 47 48 49 50 51 52 53 54 55 0 57 58 59 60 63 69 61 64 65 66 67 68 62 70 71 72 73} -defaultsOSRD -pinDir M_AXI_B right -pinY M_AXI_B 20R -pinDir S_AXI_LITE left -pinY S_AXI_LITE 0L -pinDir pcie_mgt right -pinY pcie_mgt 0R -pinDir sys_clk left -pinY sys_clk 120L -pinDir sys_clk_gt left -pinY sys_clk_gt 140L -pinDir sys_rst_n left -pinY sys_rst_n 20L -pinBusDir cfg_ltssm_state right -pinBusY cfg_ltssm_state 40R -pinDir user_lnk_up right -pinY user_lnk_up 60R -pinDir axi_aclk right -pinY axi_aclk 80R -pinDir axi_aresetn right -pinY axi_aresetn 100R -pinDir axi_ctl_aresetn right -pinY axi_ctl_aresetn 120R -pinBusDir usr_irq_req left -pinBusY usr_irq_req 40L -pinBusDir usr_irq_ack right -pinBusY usr_irq_ack 140R -pinDir msi_enable right -pinY msi_enable 160R -pinBusDir msi_vector_width right -pinBusY msi_vector_width 180R -pinDir interrupt_out right -pinY interrupt_out 200R
-preplace inst util_ds_buf_0 -pg 1 -lvl 1 -x 170 -y 180 -swap {0 1 2 4 3} -defaultsOSRD -pinDir CLK_IN_D left -pinY CLK_IN_D 0L -pinBusDir IBUF_OUT right -pinBusY IBUF_OUT 20R -pinBusDir IBUF_DS_ODIV2 right -pinBusY IBUF_DS_ODIV2 0R
-preplace inst one -pg 1 -lvl 1 -x 170 -y 80 -defaultsOSRD -pinBusDir dout right -pinBusY dout 0R
-preplace netloc util_ds_buf_0_IBUF_DS_ODIV2 1 1 1 N 180
-preplace netloc util_ds_buf_0_IBUF_OUT 1 1 1 N 200
-preplace netloc xlconstant_0_dout 1 1 1 N 80
-preplace netloc pcie_bridge_axi_aclk 1 2 1 N 140
-preplace netloc pcie_bridge_axi_aresetn 1 2 1 N 160
-preplace netloc CLK_IN_D_0_1 1 0 1 N 180
-preplace netloc pcie_bridge_pcie_mgt 1 2 1 N 60
-preplace netloc pcie_bridge_M_AXI_B 1 2 1 N 80
-levelinfo -pg 1 0 170 500 690
-pagesize -pg 1 -db -bbox -sgen -130 0 830 320
+preplace port pcie_mgt_0 -pg 1 -lvl 0 -x 0 -y 280 -defaultsOSRD -left
+preplace port pcie_refclk -pg 1 -lvl 0 -x 0 -y 440 -defaultsOSRD
+preplace port M_AXI_B -pg 1 -lvl 3 -x 750 -y 260 -defaultsOSRD
+preplace port AXIS_IN -pg 1 -lvl 0 -x 0 -y 60 -defaultsOSRD
+preplace port port-id_axi_aclk -pg 1 -lvl 3 -x 750 -y 280 -defaultsOSRD
+preplace port port-id_axi_aresetn -pg 1 -lvl 3 -x 750 -y 300 -defaultsOSRD
+preplace portBus pci_range_min -pg 1 -lvl 0 -x 0 -y 140 -defaultsOSRD
+preplace portBus pci_range_max -pg 1 -lvl 0 -x 0 -y 160 -defaultsOSRD
+preplace inst pcie_bridge -pg 1 -lvl 2 -x 540 -y 260 -swap {0 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27 28 29 30 31 32 33 34 35 36 37 38 39 40 41 42 43 44 45 46 47 48 49 50 51 52 53 54 55 56 57 58 59 60 61 62 63 64 65 66 67 88 69 70 71 72 73 74 75 76 77 78 79 80 81 82 83 84 85 86 87 68 89 90 91 92 93 94 95 96 97 98 99 100 101 102 103 104 105} -defaultsOSRD -pinDir S_AXI_B left -pinY S_AXI_B 0L -pinDir M_AXI_B right -pinY M_AXI_B 0R -pinDir S_AXI_LITE left -pinY S_AXI_LITE 40L -pinDir pcie_mgt left -pinY pcie_mgt 20L -pinDir sys_rst_n left -pinY sys_rst_n 80L -pinBusDir cfg_ltssm_state right -pinBusY cfg_ltssm_state 60R -pinDir user_lnk_up right -pinY user_lnk_up 80R -pinDir axi_ctl_aresetn right -pinY axi_ctl_aresetn 100R -pinBusDir usr_irq_req left -pinBusY usr_irq_req 220L -pinBusDir usr_irq_ack right -pinBusY usr_irq_ack 120R -pinDir msi_enable right -pinY msi_enable 140R -pinBusDir msi_vector_width right -pinBusY msi_vector_width 160R -pinDir interrupt_out right -pinY interrupt_out 180R
+preplace inst util_ds_buf_0 -pg 1 -lvl 1 -x 180 -y 440 -defaultsOSRD -pinDir CLK_IN_D left -pinY CLK_IN_D 0L
+preplace inst one -pg 1 -lvl 1 -x 180 -y 340 -defaultsOSRD -pinBusDir dout right -pinBusY dout 0R
+preplace inst system_ila_0 -pg 1 -lvl 2 -x 540 -y 60 -defaultsOSRD -pinDir SLOT_0_AXIS left -pinY SLOT_0_AXIS 0L -pinDir SLOT_1_AXI left -pinY SLOT_1_AXI 20L -pinDir resetn left -pinY resetn 40L
+preplace inst rdmx_to_pci -pg 1 -lvl 1 -x 180 -y 120 -defaultsOSRD -pinDir AXIS_IN left -pinY AXIS_IN 0L -pinDir M_AXI right -pinY M_AXI 0R -pinBusDir pci_range_min left -pinBusY pci_range_min 20L -pinBusDir pci_range_max left -pinBusY pci_range_max 40L
+preplace netloc util_ds_buf_0_IBUF_DS_ODIV2 1 1 1 N 440
+preplace netloc util_ds_buf_0_IBUF_OUT 1 1 1 N 460
+preplace netloc xlconstant_0_dout 1 1 1 NJ 340
+preplace netloc pci_range_min_1 1 0 1 NJ 140
+preplace netloc pci_range_max_1 1 0 1 NJ 160
+preplace netloc CLK_IN_D_0_1 1 0 1 NJ 440
+preplace netloc pcie_bridge_M_AXI_B 1 2 1 NJ 260
+preplace netloc pcie_bridge_pcie_mgt 1 0 2 NJ 280 NJ
+preplace netloc rdmx_to_pci_M_AXI 1 1 1 340 80n
+preplace netloc AXIS_IN_1 1 0 2 20 60 NJ
+levelinfo -pg 1 0 180 540 750
+pagesize -pg 1 -db -bbox -sgen -210 0 890 540
 ",
    "No Loops_ScaleFactor":"1.0",
-   "No Loops_TopLeft":"-382,-202",
+   "No Loops_TopLeft":"-407,-75",
    "guistr":"# # String gsaved with Nlview 7.0r4  2019-12-20 bk=1.5203 VDI=41 GEI=36 GUI=JA:10.0 TLS
 #  -string -flagsOSRD
 preplace port pcie_mgt_0 -pg 1 -lvl 3 -x 700 -y 80 -defaultsOSRD
@@ -44,4 +55,4 @@ levelinfo -pg 1 0 170 510 700
 pagesize -pg 1 -db -bbox -sgen -130 0 840 320
 "
 }
-
+0

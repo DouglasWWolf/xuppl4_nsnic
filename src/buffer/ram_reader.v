@@ -11,7 +11,7 @@
     Reads RAM and writes the data to an output stream
 */
 
-module ram_reader # (parameter DW=512, CHANNEL = 0)
+module ram_reader # (parameter DW=512, IW=5, CHANNEL = 0)
 (
     input   clk, resetn,
 
@@ -39,7 +39,7 @@ module ram_reader # (parameter DW=512, CHANNEL = 0)
     output     [63:0]                        M_AXI_AWADDR,
     output     [7:0]                         M_AXI_AWLEN,
     output     [2:0]                         M_AXI_AWSIZE,
-    output     [3:0]                         M_AXI_AWID,
+    output     [IW-1:0]                      M_AXI_AWID,
     output     [1:0]                         M_AXI_AWBURST,
     output                                   M_AXI_AWLOCK,
     output     [3:0]                         M_AXI_AWCACHE,
@@ -65,7 +65,7 @@ module ram_reader # (parameter DW=512, CHANNEL = 0)
     output                                  M_AXI_ARVALID,
     output     [2:0]                        M_AXI_ARPROT,
     output                                  M_AXI_ARLOCK,
-    output     [3:0]                        M_AXI_ARID,
+    output     [IW-1:0]                     M_AXI_ARID,
     output reg [7:0]                        M_AXI_ARLEN,
     output     [2:0]                        M_AXI_ARSIZE,    
     output     [1:0]                        M_AXI_ARBURST,
