@@ -24,6 +24,9 @@ module rdmx_to_pci # (parameter DW=512)
     // The range of valid PCIe addresses that we're allowed to write to
     input[63:00]    pci_range_min, pci_range_max,
 
+    // If this is 1, we received an RDMX packet with an illegal target address
+    output reg      pci_range_err,
+
     // The input stream
     input[DW-1:0]   AXIS_IN_TDATA,
     input           AXIS_IN_TVALID,
@@ -92,16 +95,20 @@ wire[ 7:0] awlen = imm_payload_cycles - 1;
 // This is the last PCI address that the current packet will occupy
 wire[63:0] last_address = rdmx_address + imm_payload_cycles*64 - 1;
 
+// Determine if the RDMX target address is outside of our legal range
+wire out_of_range = (rdmx_address < pci_range_min || rdmx_address > pci_range_max);
+
 //=============================================================================
 // This ensures that pci_address is always within a valid range
 //=============================================================================
 always @* begin
-    if (rdmx_address >= pci_range_min && last_address <= pci_range_max)
+    if (out_of_range)
         pci_address = rdmx_address;
     else
         pci_address = pci_range_min;
 end
 //=============================================================================
+
 
 
 // This will be true on any input data-cycle that contains an RDMX header
@@ -121,6 +128,20 @@ wire pdf_in_tlast = (cycle_within_packet == payload_cycles);
 
 // If we're not in reset, we are ready to receive B-channel acknowledgements
 assign M_AXI_BREADY = (resetn != 0);
+
+
+//=============================================================================
+// This block keeps track of whether we encounter an illegal RDMX address
+//=============================================================================
+always @(posedge clk) begin
+    if (resetn == 0)
+        pci_range_err <= 0;
+    else if (is_header & out_of_range) begin
+        pci_range_err <= 1;
+    end
+end
+//=============================================================================
+
 
 //=============================================================================
 // This block monitors the input stream and keeps track of which data-cycles

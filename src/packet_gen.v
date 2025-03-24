@@ -27,7 +27,8 @@ module packet_gen
     input             clk, resetn,
 
     input             start,
-    input[31:0]       max_packets,
+    input[63:0]       max_packets,
+    output            idle,
 
     output reg[511:0] axis_tdata,
     output            axis_tvalid,
@@ -39,8 +40,8 @@ module packet_gen
 localparam PAYLOAD_SIZE = 4096;
 localparam LAST_CYCLE   = (PAYLOAD_SIZE / 64) + 1;
 
-reg[ 31:0] data;
-reg[ 31:0] packet_count;
+reg[ 31:0] sequence_num;
+reg[ 63:0] packet_count;
 
 // Contains a little-endian version of the RDMX header
 wire[511:0] le_rdmx_header;
@@ -90,9 +91,9 @@ end
 always @(posedge clk) begin
 
     if (resetn == 0 || start)
-        data <= 0;
+        sequence_num <= 0;
     else if (xfer)
-        data <= data + 1;
+        sequence_num <= sequence_num + 1;
 end
 //=============================================================================
 
@@ -143,6 +144,9 @@ always @(posedge clk) begin
 end
 //=============================================================================
 
+// "idle" is true when we 
+assign idle = (fsm_state == 0) & (start == 0);
+
 // TLAST is asserted on the final cycle of every packet
 assign axis_tlast  = (cycle_within_packet == LAST_CYCLE) & axis_tvalid;
 
@@ -152,14 +156,15 @@ assign axis_tvalid = (fsm_state == 1);
 // A CMAC uses this to indicates "bad packet".  All of our packets are good.
 assign axis_tuser = 0;
 
+
 //=============================================================================
 // Ensure that an RDMX header is present on the 1st cycle of each packet
 //=============================================================================
 always @* begin
     if (cycle_within_packet == 1)
-        axis_tdata = {data, le_rdmx_header[60*8-1:0]};
+        axis_tdata = {sequence_num, le_rdmx_header[60*8-1:0]};
     else
-        axis_tdata = {64{data}};
+        axis_tdata = {sequence_num, {15{sequence_num}}};
 end
 //=============================================================================
 

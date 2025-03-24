@@ -19,3 +19,9 @@ localparam CYCLES_PER_RAM_BLOCK = BURST_BYTES / (DW/8);
 
 // This is the base address of the RAM bank for this channel
 localparam[63:0] RAM_BASE_ADDR = (CHANNEL == 0) ? RAM0_BASE_ADDR : RAM1_BASE_ADDR;
+
+// Size of each RAM bank, in bytes
+localparam[63:0] RAM_SIZE = 64'h1_0000_0000;
+
+// The first address *after* the last byte of RAM
+localparam[63:0] END_OF_RAM = (RAM_BASE_ADDR + RAM_SIZE);

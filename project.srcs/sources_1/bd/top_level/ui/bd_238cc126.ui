@@ -2,30 +2,38 @@
    "ActiveEmotionalView":"No Loops",
    "Default View_ScaleFactor":"1.0",
    "Default View_TopLeft":"-513,-212",
+   "Display-PortTypeOthers":"true",
+   "Display-PortTypeReset":"false",
    "DisplayTieOff":"1",
    "ExpandedHierarchyInLayout":"",
+   "HideNet":"/qsfp/pcie_bridge_axi_aresetn|",
    "No Loops_ExpandedHierarchyInLayout":"",
+   "No Loops_Layers":"/qsfp/pcie_bridge_axi_aresetn:false|",
    "No Loops_Layout":"# # String gsaved with Nlview 7.0r4  2019-12-20 bk=1.5203 VDI=41 GEI=36 GUI=JA:10.0 TLS
 #  -string -flagsOSRD
-preplace port axis_out -pg 1 -lvl 2 -x 340 -y 200 -defaultsOSRD
-preplace port axis_in -pg 1 -lvl 0 -x 0 -y 60 -defaultsOSRD
-preplace port port-id_clk -pg 1 -lvl 0 -x 0 -y 80 -defaultsOSRD
-preplace port port-id_resetn -pg 1 -lvl 0 -x 0 -y 100 -defaultsOSRD
-preplace port port-id_gen_packets -pg 1 -lvl 0 -x 0 -y 240 -defaultsOSRD
-preplace portBus max_packets -pg 1 -lvl 0 -x 0 -y 260 -defaultsOSRD
-preplace inst data_consumer -pg 1 -lvl 1 -x 180 -y 60 -defaultsOSRD -pinDir AXIS_RX left -pinY AXIS_RX 0L -pinDir clk left -pinY clk 20L -pinDir resetn left -pinY resetn 40L
-preplace inst packet_gen -pg 1 -lvl 1 -x 180 -y 200 -defaultsOSRD -pinDir axis right -pinY axis 0R -pinDir clk left -pinY clk 0L -pinDir resetn left -pinY resetn 20L -pinDir start left -pinY start 40L -pinBusDir max_packets left -pinBusY max_packets 60L
-preplace netloc pcie_bridge_axi_aclk 1 0 1 40 80n
-preplace netloc pcie_bridge_axi_aresetn 1 0 1 20 100n
-preplace netloc start_1 1 0 1 NJ 240
-preplace netloc max_packets_1 1 0 1 NJ 260
-preplace netloc axis_in_1 1 0 1 NJ 60
-preplace netloc packet_gen_axis 1 1 1 N 200
-levelinfo -pg 1 0 180 340
-pagesize -pg 1 -db -bbox -sgen -190 0 450 320
+preplace port axis_out -pg 1 -lvl 3 -x 530 -y 240 -defaultsOSRD
+preplace port axis_in -pg 1 -lvl 0 -x 0 -y 120 -defaultsOSRD
+preplace port port-id_clk -pg 1 -lvl 0 -x 0 -y 140 -defaultsOSRD
+preplace port port-id_resetn -pg 1 -lvl 0 -x 0 -y 20 -defaultsOSRD
+preplace port port-id_gen_packets -pg 1 -lvl 0 -x 0 -y 260 -defaultsOSRD
+preplace port port-id_gen_idle -pg 1 -lvl 3 -x 530 -y 260 -defaultsOSRD
+preplace portBus max_packets -pg 1 -lvl 0 -x 0 -y 280 -defaultsOSRD
+preplace portBus pcs_aligned -pg 1 -lvl 3 -x 530 -y 60 -defaultsOSRD
+preplace inst data_consumer -pg 1 -lvl 2 -x 370 -y 100 -defaultsOSRD -pinDir AXIS_RX left -pinY AXIS_RX 0L -pinDir clk left -pinY clk 40L
+preplace inst packet_gen -pg 1 -lvl 2 -x 370 -y 240 -defaultsOSRD -pinDir axis right -pinY axis 0R -pinDir clk left -pinY clk 20L -pinDir start left -pinY start 40L -pinBusDir max_packets left -pinBusY max_packets 60L -pinDir idle right -pinY idle 20R
+preplace inst xlconstant_0 -pg 1 -lvl 1 -x 110 -y 60 -defaultsOSRD -pinBusDir dout right -pinBusY dout 0R
+preplace netloc max_packets_1 1 0 2 NJ 280 190
+preplace netloc pcie_bridge_axi_aclk 1 0 2 N 140 230
+preplace netloc start_1 1 0 2 NJ 260 210
+preplace netloc packet_gen_idle 1 2 1 N 260
+preplace netloc xlconstant_0_dout 1 1 2 230J 40 510
+preplace netloc axis_in_1 1 0 2 NJ 120 230
+preplace netloc packet_gen_axis 1 2 1 NJ 240
+levelinfo -pg 1 0 110 370 530
+pagesize -pg 1 -db -bbox -sgen -190 -10 700 360
 ",
    "No Loops_ScaleFactor":"1.0",
-   "No Loops_TopLeft":"-618,-185",
+   "No Loops_TopLeft":"-493,-178",
    "guistr":"# # String gsaved with Nlview 7.0r4  2019-12-20 bk=1.5203 VDI=41 GEI=36 GUI=JA:10.0 TLS
 #  -string -flagsOSRD
 preplace port axis_out -pg 1 -lvl 3 -x 560 -y 250 -defaultsOSRD
@@ -46,4 +54,4 @@ levelinfo -pg 1 0 140 400 560
 pagesize -pg 1 -db -bbox -sgen -190 0 670 340
 "
 }
-
+0

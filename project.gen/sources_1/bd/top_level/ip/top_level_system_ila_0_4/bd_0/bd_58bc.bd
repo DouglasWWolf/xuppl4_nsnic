@@ -1,7 +1,7 @@
 {
   "design": {
     "design_info": {
-      "boundary_crc": "0xFC507D72BCBD48B0",
+      "boundary_crc": "0xFC507D7262935DF5",
       "design_src": "SBD",
       "device": "xcvu3p-ffvc1517-2-e",
       "name": "bd_58bc",
@@ -39,7 +39,7 @@
             "value_src": "default"
           },
           "HAS_TLAST": {
-            "value": "0",
+            "value": "1",
             "value_src": "default"
           },
           "HAS_TREADY": {

@@ -26,6 +26,9 @@ module stream_to_ram # (parameter DW=512, IW=5, CHANNEL = 0)
     // If this matches CHANNEL, data is currently flowing in to us.
     input   inflow_q,
 
+    // This will go high if at any point we overflow the RAM 
+    output reg overflow,
+
     // The total number of data-cycles received on the input
     output[31:0] cycles_rcvd,
 
@@ -123,6 +126,18 @@ wire fpdout_tvalid;
 
 // This will be a '1' on any cycle where a data-transfer is happening in the input stream
 wire axis_xfer = (AXIS_IN_TVALID & AXIS_IN_TREADY);
+
+
+//=============================================================================
+// This block asserts "overflow" if we attempt to write off the end of RAM
+//=============================================================================
+always @(posedge clk) begin
+    if (resetn == 0) 
+        overflow <= 0;
+    else if (M_AXI_AWVALID & M_AXI_AWREADY & (M_AXI_AWADDR >= END_OF_RAM))
+        overflow <= 1;
+end
+//=============================================================================
 
 
 //=============================================================================
