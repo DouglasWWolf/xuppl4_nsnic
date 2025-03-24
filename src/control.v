@@ -259,7 +259,7 @@ always @(posedge clk) begin
                     REG_PCI_MIN_L:  pci_range_min[31:00] <= ashi_wdata; 
                     REG_LOOPBACK:   loopback             <= ashi_wdata;
                     REG_RESET:      reset_countdown      <= 1000;                  
-                    REG_PCI_PAUSE:  pause_pci_counter    <= ashi_wdata;
+                    REG_PAUSE_PCI:  pause_pci_counter    <= ashi_wdata;
 
                     // Writes to any other register are a decode-error
                     default: ashi_wresp <= DECERR;
@@ -326,7 +326,7 @@ always @(posedge clk) begin
                                     pcs_aligned
                                 };
 
-            REG_PCI_PAUSE:      ashi_rdata <= pause_pci;
+            REG_PAUSE_PCI:      ashi_rdata <= pause_pci;
 
             // Reads of any other register are a decode-error
             default: ashi_rresp <= DECERR;
