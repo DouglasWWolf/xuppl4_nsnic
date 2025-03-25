@@ -16,10 +16,10 @@ REG_PACKET_COUNT_L=$((BASE_ADDR +  1 * 4))
      REG_HWMARK_0L=$((BASE_ADDR +  3 * 4))
      REG_HWMARK_1H=$((BASE_ADDR +  4 * 4))
      REG_HWMARK_1L=$((BASE_ADDR +  5 * 4))
-     REG_PCI_MIN_H=$((BASE_ADDR +  6 * 4))
-     REG_PCI_MIN_L=$((BASE_ADDR +  7 * 4))
-     REG_PCI_MAX_H=$((BASE_ADDR +  8 * 4))
-     REG_PCI_MAX_L=$((BASE_ADDR +  9 * 4))
+    REG_PCI_BASE_H=$((BASE_ADDR +  6 * 4))
+    REG_PCI_BASE_L=$((BASE_ADDR +  7 * 4))
+    REG_PCI_SIZE_H=$((BASE_ADDR +  8 * 4))
+    REG_PCI_SIZE_L=$((BASE_ADDR +  9 * 4))
       REG_LOOPBACK=$((BASE_ADDR + 10 * 4))
         REG_ERRORS=$((BASE_ADDR + 11 * 4))
          REG_RESET=$((BASE_ADDR + 12 * 4))
@@ -29,6 +29,7 @@ REG_GOOD_PACKETS_L=$((BASE_ADDR + 14 * 4))
  REG_BAD_PACKETS_L=$((BASE_ADDR + 16 * 4))
         REG_STATUS=$((BASE_ADDR + 17 * 4))
      REG_PAUSE_PCI=$((BASE_ADDR + 18 * 4))
+REG_CLEAR_COUNTERS=$((BASE_ADDR + 19 * 4))
 #==============================================================================
 
 #==============================================================================
@@ -186,26 +187,21 @@ loopback()
 #==============================================================================
 pci_range()
 {
-    local min_addr=$1
-    local max_addr=$2
+    local pci_base=$1
+    local pci_size=$2
 
-    if [ -z $min_addr ] || [ -z $max_addr ]; then
-        min_addr=$(pcireg -dec -wide $REG_PCI_MIN_H)
-        max_addr=$(pcireg -dec -wide $REG_PCI_MAX_H)
-        printf "0x%lX 0x%lX\n" $min_addr $max_addr
+    if [ -z $pci_base ] || [ -z $pci_size ]; then
+        pci_base=$(pcireg -dec -wide $REG_PCI_BASE_H)
+        pci_size=$(pcireg -dec -wide $REG_PCI_SIZE_H)
+        printf "0x%lX 0x%lX\n" $pci_base $pci_size
         return
     fi
 
-    min_addr=$(strip_underscores $min_addr)
-    max_addr=$(strip_underscores $max_addr)
+    pci_base=$(strip_underscores $pci_base)
+    pci_size=$(strip_underscores $pci_size)
 
-    if [ $min_addr -ge $max_addr ]; then
-        echo "Min and max are reversed on pci_range" 1>&2
-        return
-    fi
-
-    pcireg -wide $REG_PCI_MIN_H $min_addr
-    pcireg -wide $REG_PCI_MAX_H $max_addr
+    pcireg -wide $REG_PCI_BASE_H $pci_base
+    pcireg -wide $REG_PCI_SIZE_H $pci_size
 
 }
 #==============================================================================
@@ -244,5 +240,15 @@ pause_pci()
     fi
 
     pcireg $REG_PAUSE_PCI $((usec * 250))
+}
+#==============================================================================
+
+
+#==============================================================================
+# Clears the packet counters and pci_range error
+#==============================================================================
+clear_counters()
+{
+    pcireg $REG_CLEAR_COUNTERS 1
 }
 #==============================================================================

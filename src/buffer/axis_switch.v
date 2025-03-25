@@ -14,11 +14,14 @@
 module axis_switch # (parameter DW=512)
 (
     
-    input clk, resetn,
+    // This doesn't do anything and is here to keep Vivado happy
+    input clk,
 
+    // This selects which output is connected to the input
     input port_select,
 
-    output reg[63:0] packet_count,
+    // Strobes high for one cycle every time we see a packet
+    output packet_strb,
 
     // The input stream
     input[DW-1:0] axis_in_tdata,
@@ -54,17 +57,8 @@ assign axis_out1_tvalid = axis_in_tvalid & (port_select == 1);
 // The input TREADY signal is ready when the output TREADY signal is ready
 assign axis_in_tready = (port_select == 0) ? axis_out0_tready : axis_out1_tready;
 
-
-//=============================================================================
-// This block counts the number of packets that pass through our switch
-//=============================================================================
-always @(posedge clk) begin
-    if (resetn == 0)
-        packet_count <= 0;
-    else if (axis_in_tvalid & axis_in_tready & axis_in_tlast)
-        packet_count <= packet_count + 1;
-end
-//=============================================================================
+// This strobes high for one cycle at the end of every packet
+assign packet_strb = axis_in_tvalid & axis_in_tready & axis_in_tlast;
 
 endmodule
 

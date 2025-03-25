@@ -30,10 +30,7 @@ module bad_packet_filter #
     input clk, resetn,
 
     // Strobes high for one cycle to signal a bad packet
-    output bad_packet,
-
-    // Counts the number of bad packets encountered
-    output reg[63:0] bad_packet_count,
+    output bad_packet_strb,
 
     // Input stream
     input[DW-1:0]      AXIS_IN_TDATA,
@@ -67,7 +64,7 @@ wire feop_out_tvalid;
 wire feop_out_tready = pdf_out_tvalid & AXIS_OUT_TREADY & AXIS_OUT_TLAST;
 
 // This strobes high for a single cycle anytime we encounter a bad packet
-assign bad_packet = AXIS_IN_TVALID & AXIS_IN_TREADY & AXIS_IN_TLAST & AXIS_IN_TUSER;
+assign bad_packet_strb = AXIS_IN_TVALID & AXIS_IN_TREADY & AXIS_IN_TLAST & AXIS_IN_TUSER;
 
 // We can output data if this packet is good or if we're in "mark only mode"
 wire output_enable = (AXIS_OUT_TUSER == 0) | (MARK_ONLY_MODE == 1);
@@ -75,16 +72,6 @@ wire output_enable = (AXIS_OUT_TUSER == 0) | (MARK_ONLY_MODE == 1);
 // We output data on the output bus whenever it's available from the FIFO
 assign AXIS_OUT_TVALID = (output_enable & feop_out_tvalid);
 
-//====================================================================================
-// Count the number of bad packets we encounter
-//====================================================================================
-always @(posedge clk) begin
-    if (resetn == 0)
-        bad_packet_count <= 0;
-    else if (bad_packet)
-        bad_packet_count <= bad_packet_count + 1;
-end
-//====================================================================================
 
 
 //====================================================================================

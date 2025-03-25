@@ -30,8 +30,8 @@ module control # (parameter AW=8)
     // While this is 1, the data-flow to the PCI bridge will be suspended
     output pause_pci,
 
-    // The number of properly formed and badly formed packets received via QSFP
-    input[63:0] good_packets, bad_packets,
+    // These strobe high for one cycle upon the receipt of a good or bad packet
+    input bad_packet_strb, good_packet_strb,
 
     // These indicates that "stream_to_ram" overflowed the available RAM
     input overflow_0, overflow_1,
@@ -42,8 +42,8 @@ module control # (parameter AW=8)
     // This is a '1' if the QSFP port has acheived PCS alignment with the peer
     input async_pcs_aligned,
 
-    // This is a '1' if we receive a packet with an invalid RDMX target address
-    input pci_range_err,
+    // Strobes high if we receive a packet with an invalid RDMX target address
+    input pci_range_err_strb,
 
     // We use this to reset the rest of the system
     (* X_INTERFACE_INFO = "xilinx.com:signal:reset:1.0 resetn_out RST" *)
@@ -55,9 +55,8 @@ module control # (parameter AW=8)
     // These are the high-water mark of RAM usage for each RAM bank
     input[63:0] hwm_0, hwm_1,
 
-    // The min and max valid addresses for PCI writes
-    output reg[63:0] pci_range_min, pci_range_max,
-
+    // The base address and size of the contiguous buffer in host RAM
+    output reg[63:0] pci_base, pci_size,
 
     // We use this to monitor the output of the buffer for sequence errors
     (* X_INTERFACE_MODE = "monitor" *)
@@ -107,10 +106,10 @@ localparam REG_HWMARK_0H      =  2;
 localparam REG_HWMARK_0L      =  3;
 localparam REG_HWMARK_1H      =  4;
 localparam REG_HWMARK_1L      =  5;
-localparam REG_PCI_MIN_H      =  6;
-localparam REG_PCI_MIN_L      =  7;
-localparam REG_PCI_MAX_H      =  8;
-localparam REG_PCI_MAX_L      =  9;
+localparam REG_PCI_BASE_H     =  6;
+localparam REG_PCI_BASE_L     =  7;
+localparam REG_PCI_SIZE_H     =  8;
+localparam REG_PCI_SIZE_L     =  9;
 localparam REG_LOOPBACK       = 10;
 localparam REG_ERRORS         = 11;
 localparam REG_RESET          = 12;
@@ -120,6 +119,7 @@ localparam REG_BAD_PACKETS_H  = 15;
 localparam REG_BAD_PACKETS_L  = 16;
 localparam REG_STATUS         = 17;
 localparam REG_PAUSE_PCI      = 18;
+localparam REG_CLEAR_COUNTERS = 19;
 //==========================================================================
 
 
@@ -161,6 +161,9 @@ localparam ADDR_MASK = (1 << AW) - 1;
 // This will be a 1 when a sequence error of detected
 reg seq_error;
 
+// This strobes high for a cycle to clear various counters
+reg clear_counters;
+
 // Used to count-down the reset time
 reg[15:0] reset_countdown;
 
@@ -182,6 +185,49 @@ reg[31:0] pause_pci_counter;
 // PCI output is paused while this counter is non-zero
 assign pause_pci = (pause_pci_counter != 0);
 
+
+//=============================================================================
+// This block records a pci_range_error when we see the strobe
+//=============================================================================
+reg pci_range_err;
+//-----------------------------------------------------------------------------
+always @(posedge clk) begin
+    if (resetn_out == 0 || clear_counters)
+        pci_range_err <= 0;
+    else if (pci_range_err_strb)
+        pci_range_err <= 1;
+end
+//=============================================================================
+
+
+//=============================================================================
+// Count the number of good packets
+//=============================================================================
+reg[63:0] good_packets;
+//-----------------------------------------------------------------------------
+always @(posedge clk) begin
+    if (resetn_out == 0 || clear_counters)
+        good_packets <= 0;
+    else if (good_packet_strb)
+        good_packets <= good_packets + 1;
+end
+//=============================================================================
+
+
+//=============================================================================
+// Count the number of bad packets
+//=============================================================================
+reg[63:0] bad_packets;
+//-----------------------------------------------------------------------------
+always @(posedge clk) begin
+    if (resetn_out == 0 || clear_counters)
+        bad_packets <= 0;
+    else if (bad_packet_strb)
+        bad_packets <= bad_packets + 1;
+end
+//=============================================================================
+
+
 //=============================================================================
 // This block monitors for sequence errors
 //
@@ -193,7 +239,7 @@ wire[31:0] seq_data = seq_axis_tdata[64*8-1 -: 32];
 reg [31:0] seq_prior;
 //-----------------------------------------------------------------------------
 always @(posedge clk) begin
-    if (resetn_out == 0)
+    if (resetn_out == 0 || clear_counters)
         seq_error <= 0;
 
     else if (seq_axis_tvalid & seq_axis_tready) begin
@@ -213,7 +259,8 @@ end
 //==========================================================================
 always @(posedge clk) begin
 
-    gen_packets <= 0;
+    gen_packets    <= 0;
+    clear_counters <= 0;
 
     // This counts down to zero and control the duration of resetn_out
     if (reset_countdown) reset_countdown <= reset_countdown - 1;
@@ -224,8 +271,8 @@ always @(posedge clk) begin
     // If we're in reset, initialize important registers
     if (resetn == 0) begin
         ashi_write_state  <= 0;
-        pci_range_min     <= 64'h1_0000_0000;
-        pci_range_max     <= 64'h1_FFFF_FFFF;
+        pci_base          <= 64'h1_0000_0000;
+        pci_size          <= 64'h1_0000_0000;
         loopback          <= 0;
         pause_pci_counter <= 0;
     end
@@ -253,13 +300,14 @@ always @(posedge clk) begin
                             gen_packets         <= 1;
                         end
 
-                    REG_PCI_MAX_H:  pci_range_max[63:32] <= ashi_wdata;
-                    REG_PCI_MAX_L:  pci_range_max[31:00] <= ashi_wdata;                    
-                    REG_PCI_MIN_H:  pci_range_min[63:32] <= ashi_wdata;
-                    REG_PCI_MIN_L:  pci_range_min[31:00] <= ashi_wdata; 
-                    REG_LOOPBACK:   loopback             <= ashi_wdata;
-                    REG_RESET:      reset_countdown      <= 1000;                  
-                    REG_PAUSE_PCI:  pause_pci_counter    <= ashi_wdata;
+                    REG_PCI_BASE_H:     pci_base[63:32]   <= ashi_wdata;
+                    REG_PCI_BASE_L:     pci_base[31:00]   <= ashi_wdata;                    
+                    REG_PCI_SIZE_H:     pci_size[63:32]   <= ashi_wdata;
+                    REG_PCI_SIZE_L:     pci_size[31:00]   <= ashi_wdata; 
+                    REG_LOOPBACK:       loopback          <= ashi_wdata;
+                    REG_RESET:          reset_countdown   <= 1000;                  
+                    REG_PAUSE_PCI:      pause_pci_counter <= ashi_wdata;
+                    REG_CLEAR_COUNTERS: clear_counters    <= 1;
 
                     // Writes to any other register are a decode-error
                     default: ashi_wresp <= DECERR;
@@ -300,10 +348,10 @@ always @(posedge clk) begin
             REG_HWMARK_0L:      ashi_rdata <= hwm_0[31:00];
             REG_HWMARK_1H:      ashi_rdata <= hwm_1[63:32];
             REG_HWMARK_1L:      ashi_rdata <= hwm_1[31:00];
-            REG_PCI_MIN_H:      ashi_rdata <= pci_range_min[63:32];
-            REG_PCI_MIN_L:      ashi_rdata <= pci_range_min[31:00];
-            REG_PCI_MAX_H:      ashi_rdata <= pci_range_max[63:32];
-            REG_PCI_MAX_L:      ashi_rdata <= pci_range_max[31:00];
+            REG_PCI_BASE_H:     ashi_rdata <= pci_base[63:32];
+            REG_PCI_BASE_L:     ashi_rdata <= pci_base[31:00];
+            REG_PCI_SIZE_H:     ashi_rdata <= pci_size[63:32];
+            REG_PCI_SIZE_L:     ashi_rdata <= pci_size[31:00];
             REG_LOOPBACK:       ashi_rdata <= loopback;
 
             REG_ERRORS:         ashi_rdata <= 

@@ -30,6 +30,7 @@ preplace netloc cmac_usplus_gt_txusrclk2 1 1 1 380 100n
 preplace netloc init_clk_1 1 0 2 NJ 670 380J
 preplace netloc sys_clk_1 1 0 1 20 80n
 preplace netloc sys_resetn_in_1 1 0 1 20 260n
+preplace netloc axis_tx_1 1 0 1 NJ 200
 preplace netloc cdc_fifo_M_AXIS 1 0 1 N 60
 preplace netloc cmac_control_ctl_rx 1 1 1 NJ 350
 preplace netloc cmac_control_ctl_tx 1 1 1 NJ 370
@@ -40,7 +41,6 @@ preplace netloc cmac_usplus_gt_serial_port 1 2 1 N 80
 preplace netloc cmac_usplus_stat_rx 1 1 1 NJ 390
 preplace netloc gt_ref_clk_1 1 2 1 N 100
 preplace netloc tx_cdc_fifo1_M_AXIS 1 1 1 N 200
-preplace netloc axis_tx_1 1 0 1 NJ 200
 levelinfo -pg 1 0 210 580 790
 pagesize -pg 1 -db -bbox -sgen -150 0 940 750
 ",

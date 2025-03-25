@@ -295,7 +295,7 @@
         <spirit:parameters>
           <spirit:parameter>
             <spirit:name>viewChecksum</spirit:name>
-            <spirit:value>f880779f</spirit:value>
+            <spirit:value>ddc81641</spirit:value>
           </spirit:parameter>
         </spirit:parameters>
       </spirit:view>
@@ -308,7 +308,7 @@
         <spirit:parameters>
           <spirit:parameter>
             <spirit:name>viewChecksum</spirit:name>
-            <spirit:value>f880779f</spirit:value>
+            <spirit:value>ddc81641</spirit:value>
           </spirit:parameter>
         </spirit:parameters>
       </spirit:view>
@@ -405,16 +405,12 @@
         </spirit:wire>
       </spirit:port>
       <spirit:port>
-        <spirit:name>good_packets</spirit:name>
+        <spirit:name>bad_packet_strb</spirit:name>
         <spirit:wire>
           <spirit:direction>in</spirit:direction>
-          <spirit:vector>
-            <spirit:left spirit:format="long">63</spirit:left>
-            <spirit:right spirit:format="long">0</spirit:right>
-          </spirit:vector>
           <spirit:wireTypeDefs>
             <spirit:wireTypeDef>
-              <spirit:typeName>std_logic_vector</spirit:typeName>
+              <spirit:typeName>std_logic</spirit:typeName>
               <spirit:viewNameRef>xilinx_anylanguagesynthesis</spirit:viewNameRef>
               <spirit:viewNameRef>xilinx_anylanguagebehavioralsimulation</spirit:viewNameRef>
             </spirit:wireTypeDef>
@@ -422,16 +418,12 @@
         </spirit:wire>
       </spirit:port>
       <spirit:port>
-        <spirit:name>bad_packets</spirit:name>
+        <spirit:name>good_packet_strb</spirit:name>
         <spirit:wire>
           <spirit:direction>in</spirit:direction>
-          <spirit:vector>
-            <spirit:left spirit:format="long">63</spirit:left>
-            <spirit:right spirit:format="long">0</spirit:right>
-          </spirit:vector>
           <spirit:wireTypeDefs>
             <spirit:wireTypeDef>
-              <spirit:typeName>std_logic_vector</spirit:typeName>
+              <spirit:typeName>std_logic</spirit:typeName>
               <spirit:viewNameRef>xilinx_anylanguagesynthesis</spirit:viewNameRef>
               <spirit:viewNameRef>xilinx_anylanguagebehavioralsimulation</spirit:viewNameRef>
             </spirit:wireTypeDef>
@@ -504,7 +496,7 @@
         </spirit:wire>
       </spirit:port>
       <spirit:port>
-        <spirit:name>pci_range_err</spirit:name>
+        <spirit:name>pci_range_err_strb</spirit:name>
         <spirit:wire>
           <spirit:direction>in</spirit:direction>
           <spirit:wireTypeDefs>
@@ -577,7 +569,7 @@
         </spirit:wire>
       </spirit:port>
       <spirit:port>
-        <spirit:name>pci_range_min</spirit:name>
+        <spirit:name>pci_base</spirit:name>
         <spirit:wire>
           <spirit:direction>out</spirit:direction>
           <spirit:vector>
@@ -594,7 +586,7 @@
         </spirit:wire>
       </spirit:port>
       <spirit:port>
-        <spirit:name>pci_range_max</spirit:name>
+        <spirit:name>pci_size</spirit:name>
         <spirit:wire>
           <spirit:direction>out</spirit:direction>
           <spirit:vector>
@@ -1045,7 +1037,7 @@
         <xilinx:designToolContext>IPI</xilinx:designToolContext>
       </xilinx:designToolContexts>
       <xilinx:coreRevision>1</xilinx:coreRevision>
-      <xilinx:coreCreationDateTime>2025-03-24T06:27:53Z</xilinx:coreCreationDateTime>
+      <xilinx:coreCreationDateTime>2025-03-25T19:20:49Z</xilinx:coreCreationDateTime>
     </xilinx:coreExtensions>
     <xilinx:packagingInfo>
       <xilinx:xilinxVersion>2021.1</xilinx:xilinxVersion>

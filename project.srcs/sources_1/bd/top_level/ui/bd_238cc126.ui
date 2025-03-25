@@ -31,7 +31,7 @@ preplace inst ethernet -pg 1 -lvl 2 -x 460 -y 340 -swap {0 1 2 3 4 5 6 7 8 9 10 
 preplace inst qsfp_pins -pg 1 -lvl 1 -x 140 -y 60 -defaultsOSRD -pinBusDir qsfp_rst_l left -pinBusY qsfp_rst_l 0L -pinBusDir qsfp_lp left -pinBusY qsfp_lp 20L
 preplace inst status_leds -pg 1 -lvl 1 -x 140 -y 280 -swap {2 1 0} -defaultsOSRD -pinDir qsfp0_up left -pinY qsfp0_up 40L -pinBusDir led_green_l left -pinBusY led_green_l 20L -pinBusDir led_orange_l left -pinBusY led_orange_l 0L
 preplace inst axis_mux -pg 1 -lvl 3 -x 720 -y 220 -defaultsOSRD -pinDir axis0 left -pinY axis0 0L -pinDir axis1 left -pinY axis1 120L -pinDir axis_out right -pinY axis_out 120R -pinDir clk left -pinY clk 140L
-preplace inst repacketizer -pg 1 -lvl 4 -x 990 -y 400 -swap {0 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 17 16} -defaultsOSRD -pinDir axis_monitor left -pinY axis_monitor 0L -pinDir axis_in right -pinY axis_in 0R -pinDir axis_out left -pinY axis_out 20L -pinDir clk left -pinY clk 60L -pinDir resetn left -pinY resetn 40L
+preplace inst repacketizer -pg 1 -lvl 4 -x 990 -y 400 -swap {0 1 2 3 4 5 6 7 8 9 10 11 12 13 14 16 15} -defaultsOSRD -pinDir axis_monitor left -pinY axis_monitor 0L -pinDir axis_in right -pinY axis_in 0R -pinDir axis_out left -pinY axis_out 20L -pinDir clk left -pinY clk 60L -pinDir resetn left -pinY resetn 40L
 preplace netloc ethernet_rx_aligned 1 0 2 20 400 280J
 preplace netloc init_clk_1 1 0 2 NJ 420 260J
 preplace netloc max_packets_1 1 0 2 NJ 180 N
@@ -46,15 +46,15 @@ preplace netloc status_leds_led_orange_l 1 0 1 N 280
 preplace netloc Conn1 1 0 2 NJ 440 NJ
 preplace netloc Conn2 1 0 2 NJ 380 N
 preplace netloc axis_mux_0_axis_out 1 3 2 860 340 N
+preplace netloc axis_tx_a_1 1 4 1 N 400
 preplace netloc ethernet_axis_rx 1 2 1 N 340
 preplace netloc packet_gen_axis 1 2 1 N 220
 preplace netloc packetizer_0_axis_out 1 2 2 NJ 420 NJ
-preplace netloc axis_tx_a_1 1 4 1 N 400
 levelinfo -pg 1 0 140 460 720 990 1140
 pagesize -pg 1 -db -bbox -sgen -190 0 1260 570
 ",
    "No Loops_ScaleFactor":"1.0",
-   "No Loops_TopLeft":"-214,-73",
+   "No Loops_TopLeft":"-214,-60",
    "guistr":"# # String gsaved with Nlview 7.0r4  2019-12-20 bk=1.5203 VDI=41 GEI=36 GUI=JA:10.0 TLS
 #  -string -flagsOSRD
 preplace port axis_out -pg 1 -lvl 3 -x 560 -y 250 -defaultsOSRD

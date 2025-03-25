@@ -21,11 +21,11 @@ module rdmx_to_pci # (parameter DW=512)
 (
     input           clk, resetn,
 
-    // The range of valid PCIe addresses that we're allowed to write to
-    input[63:00]    pci_range_min, pci_range_max,
+    // The base address and size of the reserved contiguous buffer in host RAM
+    input[63:00]    pci_base, pci_size,
 
-    // If this is 1, we received an RDMX packet with an illegal target address
-    output reg      pci_range_err,
+    // Strobes high for one cycle when we see an invalid RDMX offset
+    output          pci_range_err_strb,
 
     // The input stream
     input[DW-1:0]   AXIS_IN_TDATA,
@@ -87,30 +87,29 @@ module rdmx_to_pci # (parameter DW=512)
 reg [ 7:0] cycle_within_packet;
 wire[ 7:0] imm_payload_cycles;
 reg [ 7:0] payload_cycles;
-wire[63:0] rdmx_address;
+wire[63:0] rdmx_offset;
 reg [63:0] pci_address;
 wire[ 7:0] awlen = imm_payload_cycles - 1;
 
-// This is the last PCI address that the current packet will occupy
-wire[63:0] last_address = rdmx_address + imm_payload_cycles*64 - 1;
+// This is the last offset into the host RAM buffer that the current packet will occupy
+wire[63:0] last_offset = rdmx_offset + imm_payload_cycles*64 - 1;
 
 // Determine if the RDMX target address is outside of our legal range
-wire out_of_range = (rdmx_address < pci_range_min)
-                  | (rdmx_address > pci_range_max)
-                  | (last_address < pci_range_min)
-                  | (last_address > pci_range_max);
+wire out_of_range = (last_offset > pci_size);
+
+// This will strobe high for one cycle any time a range error occurs
+assign pci_range_err_strb = is_header & out_of_range;
 
  //=============================================================================
 // This ensures that pci_address is always within a valid range
 //=============================================================================
 always @* begin
     if (out_of_range)
-        pci_address = pci_range_min;
+        pci_address = pci_base;
     else
-        pci_address = rdmx_address;
+        pci_address = pci_base + rdmx_offset;
 end
 //=============================================================================
-
 
 
 // This will be true on any input data-cycle that contains an RDMX header
@@ -130,18 +129,6 @@ wire pdf_in_tlast = (cycle_within_packet == payload_cycles);
 
 // If we're not in reset, we are ready to receive B-channel acknowledgements
 assign M_AXI_BREADY = (resetn != 0);
-
-//=============================================================================
-// This block keeps track of whether we encounter an illegal RDMX address
-//=============================================================================
-always @(posedge clk) begin
-    if (resetn == 0)
-        pci_range_err <= 0;
-    else if (is_header & out_of_range) begin
-        pci_range_err <= 1;
-    end
-end
-//=============================================================================
 
 
 //=============================================================================
@@ -214,7 +201,7 @@ assign M_AXI_RREADY  = 0;
 rdmx_decoder i_decoder
 (
     .le_rdmx_header(AXIS_IN_TDATA     ),
-    .rdmx_address  (rdmx_address      ),
+    .rdmx_address  (rdmx_offset       ),
     .payload_bytes (                  ),
     .payload_cycles(imm_payload_cycles)
 );

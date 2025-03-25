@@ -864,7 +864,7 @@
         </spirit:wire>
       </spirit:port>
       <spirit:port>
-        <spirit:name>pci_range_min</spirit:name>
+        <spirit:name>pci_base</spirit:name>
         <spirit:wire>
           <spirit:direction>in</spirit:direction>
           <spirit:vector>
@@ -880,7 +880,7 @@
         </spirit:wire>
       </spirit:port>
       <spirit:port>
-        <spirit:name>pci_range_max</spirit:name>
+        <spirit:name>pci_size</spirit:name>
         <spirit:wire>
           <spirit:direction>in</spirit:direction>
           <spirit:vector>
@@ -896,12 +896,12 @@
         </spirit:wire>
       </spirit:port>
       <spirit:port>
-        <spirit:name>pci_range_err</spirit:name>
+        <spirit:name>pci_range_err_strb</spirit:name>
         <spirit:wire>
           <spirit:direction>out</spirit:direction>
           <spirit:wireTypeDefs>
             <spirit:wireTypeDef>
-              <spirit:typeName>reg</spirit:typeName>
+              <spirit:typeName>std_logic</spirit:typeName>
               <spirit:viewNameRef>dummy_view</spirit:viewNameRef>
             </spirit:wireTypeDef>
           </spirit:wireTypeDefs>

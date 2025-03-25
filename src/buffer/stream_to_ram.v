@@ -11,7 +11,7 @@
      Reads a stream of incoming data and writes it to RAM
 */
 
-`define DEBUG
+//`define DEBUG
 
 module stream_to_ram # (parameter DW=512, IW=5, CHANNEL = 0)
 (
