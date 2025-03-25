@@ -878,6 +878,10 @@
         </spirit:fileSetRef>
         <spirit:parameters>
           <spirit:parameter>
+            <spirit:name>GENtimestamp</spirit:name>
+            <spirit:value>Tue Mar 25 22:52:48 UTC 2025</spirit:value>
+          </spirit:parameter>
+          <spirit:parameter>
             <spirit:name>outputProductCRC</spirit:name>
             <spirit:value>9:f1f87c80</spirit:value>
           </spirit:parameter>
@@ -893,7 +897,7 @@
         <spirit:parameters>
           <spirit:parameter>
             <spirit:name>GENtimestamp</spirit:name>
-            <spirit:value>Tue Mar 25 19:28:53 UTC 2025</spirit:value>
+            <spirit:value>Tue Mar 25 22:54:37 UTC 2025</spirit:value>
           </spirit:parameter>
           <spirit:parameter>
             <spirit:name>outputProductCRC</spirit:name>
@@ -1659,8 +1663,8 @@
       <spirit:enumeration>MIX</spirit:enumeration>
     </spirit:choice>
     <spirit:choice>
-      <spirit:name>choice_list_35b40bd0</spirit:name>
-      <spirit:enumeration>6</spirit:enumeration>
+      <spirit:name>choice_list_3d67fde5</spirit:name>
+      <spirit:enumeration>51</spirit:enumeration>
     </spirit:choice>
     <spirit:choice>
       <spirit:name>choice_list_4b79ee38</spirit:name>
@@ -4465,7 +4469,7 @@
     <spirit:parameter>
       <spirit:name>C_BRAM_CNT</spirit:name>
       <spirit:displayName>BRAM utilization count</spirit:displayName>
-      <spirit:value spirit:resolve="user" spirit:id="PARAM_VALUE.C_BRAM_CNT" spirit:choiceRef="choice_list_35b40bd0" spirit:order="9.1038e+07">6</spirit:value>
+      <spirit:value spirit:resolve="user" spirit:id="PARAM_VALUE.C_BRAM_CNT" spirit:choiceRef="choice_list_3d67fde5" spirit:order="9.1038e+07">6</spirit:value>
       <spirit:vendorExtensions>
         <xilinx:parameterInfo>
           <xilinx:enablement>

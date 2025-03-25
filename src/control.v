@@ -100,26 +100,31 @@ module control # (parameter AW=8)
 
 
 //=========================  AXI Register Map  =============================
-localparam REG_PACKET_COUNT_H =  0;
-localparam REG_PACKET_COUNT_L =  1;
+localparam REG_STATUS         =  0;
+localparam REG_ERRORS         =  1;
 localparam REG_HWMARK_0H      =  2;
 localparam REG_HWMARK_0L      =  3;
 localparam REG_HWMARK_1H      =  4;
 localparam REG_HWMARK_1L      =  5;
-localparam REG_PCI_BASE_H     =  6;
-localparam REG_PCI_BASE_L     =  7;
-localparam REG_PCI_SIZE_H     =  8;
-localparam REG_PCI_SIZE_L     =  9;
-localparam REG_LOOPBACK       = 10;
-localparam REG_ERRORS         = 11;
-localparam REG_RESET          = 12;
-localparam REG_GOOD_PACKETS_H = 13;
-localparam REG_GOOD_PACKETS_L = 14;
-localparam REG_BAD_PACKETS_H  = 15;
-localparam REG_BAD_PACKETS_L  = 16;
-localparam REG_STATUS         = 17;
-localparam REG_PAUSE_PCI      = 18;
-localparam REG_CLEAR_COUNTERS = 19;
+localparam REG_GOOD_PACKETS_H =  6;
+localparam REG_GOOD_PACKETS_L =  7;
+localparam REG_BAD_PACKETS_H  =  8;
+localparam REG_BAD_PACKETS_L  =  9;
+localparam REG_PCI_BASE_H     = 10;
+localparam REG_PCI_BASE_L     = 11;
+localparam REG_PCI_SIZE_H     = 12;
+localparam REG_PCI_SIZE_L     = 13;
+localparam REG_RESET          = 14;
+localparam REG_CLEAR_COUNTERS = 15;
+
+localparam REG_ABM_PCI_ADDR_H = 20;
+localparam REG_ABM_PCI_ADDR_L = 21;
+localparam REG_SEND_ABM       = 22;    
+
+localparam REG_PACKET_COUNT_H = 32;
+localparam REG_PACKET_COUNT_L = 33;
+localparam REG_LOOPBACK       = 34;
+localparam REG_PAUSE_PCI      = 35;
 //==========================================================================
 
 
@@ -184,7 +189,6 @@ reg[31:0] pause_pci_counter;
 
 // PCI output is paused while this counter is non-zero
 assign pause_pci = (pause_pci_counter != 0);
-
 
 //=============================================================================
 // This block records a pci_range_error when we see the strobe

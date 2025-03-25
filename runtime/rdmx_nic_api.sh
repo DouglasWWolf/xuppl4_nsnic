@@ -10,26 +10,35 @@ RDMX_NIC_API_VERSION=1.0.0
 # AXI register definitions
 #==============================================================================
 BASE_ADDR=0x1000
-REG_PACKET_COUNT_H=$((BASE_ADDR +  0 * 4))
-REG_PACKET_COUNT_L=$((BASE_ADDR +  1 * 4))
+
+# General registers
+        REG_STATUS=$((BASE_ADDR +  0 * 4))
+        REG_ERRORS=$((BASE_ADDR +  1 * 4))
      REG_HWMARK_0H=$((BASE_ADDR +  2 * 4))
      REG_HWMARK_0L=$((BASE_ADDR +  3 * 4))
      REG_HWMARK_1H=$((BASE_ADDR +  4 * 4))
      REG_HWMARK_1L=$((BASE_ADDR +  5 * 4))
-    REG_PCI_BASE_H=$((BASE_ADDR +  6 * 4))
-    REG_PCI_BASE_L=$((BASE_ADDR +  7 * 4))
-    REG_PCI_SIZE_H=$((BASE_ADDR +  8 * 4))
-    REG_PCI_SIZE_L=$((BASE_ADDR +  9 * 4))
-      REG_LOOPBACK=$((BASE_ADDR + 10 * 4))
-        REG_ERRORS=$((BASE_ADDR + 11 * 4))
-         REG_RESET=$((BASE_ADDR + 12 * 4))
-REG_GOOD_PACKETS_H=$((BASE_ADDR + 13 * 4))
-REG_GOOD_PACKETS_L=$((BASE_ADDR + 14 * 4))
- REG_BAD_PACKETS_H=$((BASE_ADDR + 15 * 4))
- REG_BAD_PACKETS_L=$((BASE_ADDR + 16 * 4))
-        REG_STATUS=$((BASE_ADDR + 17 * 4))
-     REG_PAUSE_PCI=$((BASE_ADDR + 18 * 4))
-REG_CLEAR_COUNTERS=$((BASE_ADDR + 19 * 4))
+REG_GOOD_PACKETS_H=$((BASE_ADDR +  6 * 4))
+REG_GOOD_PACKETS_L=$((BASE_ADDR +  7 * 4))
+ REG_BAD_PACKETS_H=$((BASE_ADDR +  8 * 4))
+ REG_BAD_PACKETS_L=$((BASE_ADDR +  9 * 4))
+    REG_PCI_BASE_H=$((BASE_ADDR + 10 * 4))
+    REG_PCI_BASE_L=$((BASE_ADDR + 11 * 4))
+    REG_PCI_SIZE_H=$((BASE_ADDR + 12 * 4))
+    REG_PCI_SIZE_L=$((BASE_ADDR + 13 * 4))
+         REG_RESET=$((BASE_ADDR + 14 * 4))
+REG_CLEAR_COUNTERS=$((BASE_ADDR + 15 * 4))
+
+# ABM related registers
+REG_ABM_PCI_ADDR_H=$((BASE_ADDR + 20 * 4));
+REG_ABM_PCI_ADDR_L=$((BASE_ADDR + 21 * 4));
+      REG_SEND_ABM=$((BASE_ADDR + 22 * 4));    
+
+# RTL Developer debug registers
+REG_PACKET_COUNT_H=$((BASE_ADDR + 32 * 4))
+REG_PACKET_COUNT_L=$((BASE_ADDR + 33 * 4))
+      REG_LOOPBACK=$((BASE_ADDR + 34 * 4))
+     REG_PAUSE_PCI=$((BASE_ADDR + 35 * 4))
 #==============================================================================
 
 #==============================================================================
