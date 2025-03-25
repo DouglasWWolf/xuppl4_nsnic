@@ -91,21 +91,23 @@ wire[63:0] rdmx_address;
 reg [63:0] pci_address;
 wire[ 7:0] awlen = imm_payload_cycles - 1;
 
-
 // This is the last PCI address that the current packet will occupy
 wire[63:0] last_address = rdmx_address + imm_payload_cycles*64 - 1;
 
 // Determine if the RDMX target address is outside of our legal range
-wire out_of_range = (rdmx_address < pci_range_min || rdmx_address > pci_range_max);
+wire out_of_range = (rdmx_address < pci_range_min)
+                  | (rdmx_address > pci_range_max)
+                  | (last_address < pci_range_min)
+                  | (last_address > pci_range_max);
 
-//=============================================================================
+ //=============================================================================
 // This ensures that pci_address is always within a valid range
 //=============================================================================
 always @* begin
     if (out_of_range)
-        pci_address = rdmx_address;
-    else
         pci_address = pci_range_min;
+    else
+        pci_address = rdmx_address;
 end
 //=============================================================================
 
@@ -128,7 +130,6 @@ wire pdf_in_tlast = (cycle_within_packet == payload_cycles);
 
 // If we're not in reset, we are ready to receive B-channel acknowledgements
 assign M_AXI_BREADY = (resetn != 0);
-
 
 //=============================================================================
 // This block keeps track of whether we encounter an illegal RDMX address

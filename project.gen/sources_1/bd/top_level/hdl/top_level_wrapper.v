@@ -1,7 +1,7 @@
 //Copyright 1986-2021 Xilinx, Inc. All Rights Reserved.
 //--------------------------------------------------------------------------------
 //Tool Version: Vivado v.2021.1 (lin64) Build 3247384 Thu Jun 10 19:36:07 MDT 2021
-//Date        : Sun Mar 23 23:29:13 2025
+//Date        : Mon Mar 24 23:27:14 2025
 //Host        : simtool-5 running 64-bit Ubuntu 20.04.6 LTS
 //Command     : generate_target top_level_wrapper.bd
 //Design      : top_level_wrapper
@@ -14,6 +14,9 @@ module top_level_wrapper
     ddr4_bank0_clk_clk_p,
     ddr4_bank1_clk_clk_n,
     ddr4_bank1_clk_clk_p,
+    init_clk,
+    led_green_l,
+    led_orange_l,
     m0_ddr4_act_n,
     m0_ddr4_adr,
     m0_ddr4_ba,
@@ -47,11 +50,22 @@ module top_level_wrapper
     pcie_mgt_txn,
     pcie_mgt_txp,
     pcie_refclk_clk_n,
-    pcie_refclk_clk_p);
+    pcie_refclk_clk_p,
+    qsfp0_clk_clk_n,
+    qsfp0_clk_clk_p,
+    qsfp0_gt_grx_n,
+    qsfp0_gt_grx_p,
+    qsfp0_gt_gtx_n,
+    qsfp0_gt_gtx_p,
+    qsfp_lp,
+    qsfp_rst_l);
   input ddr4_bank0_clk_clk_n;
   input ddr4_bank0_clk_clk_p;
   input ddr4_bank1_clk_clk_n;
   input ddr4_bank1_clk_clk_p;
+  input init_clk;
+  output [3:0]led_green_l;
+  output [3:0]led_orange_l;
   output m0_ddr4_act_n;
   output [16:0]m0_ddr4_adr;
   output [1:0]m0_ddr4_ba;
@@ -86,11 +100,22 @@ module top_level_wrapper
   output [15:0]pcie_mgt_txp;
   input [0:0]pcie_refclk_clk_n;
   input [0:0]pcie_refclk_clk_p;
+  input qsfp0_clk_clk_n;
+  input qsfp0_clk_clk_p;
+  input [3:0]qsfp0_gt_grx_n;
+  input [3:0]qsfp0_gt_grx_p;
+  output [3:0]qsfp0_gt_gtx_n;
+  output [3:0]qsfp0_gt_gtx_p;
+  output [1:0]qsfp_lp;
+  output [1:0]qsfp_rst_l;
 
   wire ddr4_bank0_clk_clk_n;
   wire ddr4_bank0_clk_clk_p;
   wire ddr4_bank1_clk_clk_n;
   wire ddr4_bank1_clk_clk_p;
+  wire init_clk;
+  wire [3:0]led_green_l;
+  wire [3:0]led_orange_l;
   wire m0_ddr4_act_n;
   wire [16:0]m0_ddr4_adr;
   wire [1:0]m0_ddr4_ba;
@@ -125,12 +150,23 @@ module top_level_wrapper
   wire [15:0]pcie_mgt_txp;
   wire [0:0]pcie_refclk_clk_n;
   wire [0:0]pcie_refclk_clk_p;
+  wire qsfp0_clk_clk_n;
+  wire qsfp0_clk_clk_p;
+  wire [3:0]qsfp0_gt_grx_n;
+  wire [3:0]qsfp0_gt_grx_p;
+  wire [3:0]qsfp0_gt_gtx_n;
+  wire [3:0]qsfp0_gt_gtx_p;
+  wire [1:0]qsfp_lp;
+  wire [1:0]qsfp_rst_l;
 
   top_level top_level_i
        (.ddr4_bank0_clk_clk_n(ddr4_bank0_clk_clk_n),
         .ddr4_bank0_clk_clk_p(ddr4_bank0_clk_clk_p),
         .ddr4_bank1_clk_clk_n(ddr4_bank1_clk_clk_n),
         .ddr4_bank1_clk_clk_p(ddr4_bank1_clk_clk_p),
+        .init_clk(init_clk),
+        .led_green_l(led_green_l),
+        .led_orange_l(led_orange_l),
         .m0_ddr4_act_n(m0_ddr4_act_n),
         .m0_ddr4_adr(m0_ddr4_adr),
         .m0_ddr4_ba(m0_ddr4_ba),
@@ -164,5 +200,13 @@ module top_level_wrapper
         .pcie_mgt_txn(pcie_mgt_txn),
         .pcie_mgt_txp(pcie_mgt_txp),
         .pcie_refclk_clk_n(pcie_refclk_clk_n),
-        .pcie_refclk_clk_p(pcie_refclk_clk_p));
+        .pcie_refclk_clk_p(pcie_refclk_clk_p),
+        .qsfp0_clk_clk_n(qsfp0_clk_clk_n),
+        .qsfp0_clk_clk_p(qsfp0_clk_clk_p),
+        .qsfp0_gt_grx_n(qsfp0_gt_grx_n),
+        .qsfp0_gt_grx_p(qsfp0_gt_grx_p),
+        .qsfp0_gt_gtx_n(qsfp0_gt_gtx_n),
+        .qsfp0_gt_gtx_p(qsfp0_gt_gtx_p),
+        .qsfp_lp(qsfp_lp),
+        .qsfp_rst_l(qsfp_rst_l));
 endmodule

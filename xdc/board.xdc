@@ -18,8 +18,9 @@ set_property BITSTREAM.CONFIG.SPI_FALL_EDGE YES [current_design]
 #
 # 100 MHz system clock 
 #
-#set_property -dict {PACKAGE_PIN AJ28 IOSTANDARD LVCMOS18} [get_ports init_clk]
-#create_clock -period 10.000 [get_ports init_clk]
+set_property -dict {PACKAGE_PIN AJ28 IOSTANDARD LVCMOS18} [get_ports init_clk]
+create_clock -period 10.000 [get_ports init_clk]
+
 
 
 #
@@ -51,8 +52,8 @@ set_clock_groups -group [get_clocks pcie_sys_clk -include_generated_clocks] -asy
 # Use CMAC X0Y2, transceivers X0Y16 thru X0Y19
 #
 # MGTREFCLK0 for Quad 128  
-#set_property PACKAGE_PIN N33 [get_ports qsfp0_clk_clk_p]
-#set_property PACKAGE_PIN N34 [get_ports qsfp0_clk_clk_n]
+set_property PACKAGE_PIN N33 [get_ports qsfp0_clk_clk_p]
+set_property PACKAGE_PIN N34 [get_ports qsfp0_clk_clk_n]
 
 
 #
@@ -65,10 +66,31 @@ set_clock_groups -group [get_clocks pcie_sys_clk -include_generated_clocks] -asy
 #set_property PACKAGE_PIN Ae34 [get_ports qsfp1_clk_clk_n]
 
 
+##############################################
+##########  QSFP Status & Control   ##########
+##############################################
+
+set_property -dict {PACKAGE_PIN AW26  IOSTANDARD LVCMOS18} [ get_ports qsfp_rst_l[0] ]
+set_property -dict {PACKAGE_PIN AU27  IOSTANDARD LVCMOS18} [ get_ports qsfp_rst_l[1] ]
+
+set_property -dict {PACKAGE_PIN AV26  IOSTANDARD LVCMOS18} [ get_ports qsfp_lp[0] ]
+set_property -dict {PACKAGE_PIN AT27  IOSTANDARD LVCMOS18} [ get_ports qsfp_lp[1] ]
 
 
-#create_clock -period 3.103 -name gt_ref_clk  [get_ports gt_ref_clk_p]
-#set_clock_groups -group [get_clocks gt_ref_clk -include_generated_clocks] -asynchronous
+##############################################
+##########           LEDs           ##########
+##############################################
+
+set_property -dict {PACKAGE_PIN AR24  IOSTANDARD LVCMOS18} [get_ports {led_green_l[0]}]
+set_property -dict {PACKAGE_PIN AT26  IOSTANDARD LVCMOS18} [get_ports {led_green_l[1]}]
+set_property -dict {PACKAGE_PIN AR23  IOSTANDARD LVCMOS18} [get_ports {led_green_l[2]}]
+set_property -dict {PACKAGE_PIN AR26  IOSTANDARD LVCMOS18} [get_ports {led_green_l[3]}]
+
+set_property -dict {PACKAGE_PIN AP24  IOSTANDARD LVCMOS18} [get_ports {led_orange_l[0]}]
+set_property -dict {PACKAGE_PIN AT25  IOSTANDARD LVCMOS18} [get_ports {led_orange_l[1]}]
+set_property -dict {PACKAGE_PIN AP23  IOSTANDARD LVCMOS18} [get_ports {led_orange_l[2]}]
+set_property -dict {PACKAGE_PIN AR25  IOSTANDARD LVCMOS18} [get_ports {led_orange_l[3]}]
+
 
 
 
