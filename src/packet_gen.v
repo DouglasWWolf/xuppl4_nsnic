@@ -86,7 +86,7 @@ end
 
 
 //=============================================================================
-// Increment "data" after every data transfer
+// Increment "sequence number" after every data transfer
 //=============================================================================
 always @(posedge clk) begin
 
@@ -174,7 +174,7 @@ end
 //=============================================================================
 rdmx_encoder i_encoder
 (
-    .rdmx_target_addr({32'h1, pci_address}),
+    .rdmx_target_addr({32'h0, pci_address}),
     .payload_length  (PAYLOAD_SIZE        ),
     .le_rdmx_header  (le_rdmx_header      )
 );

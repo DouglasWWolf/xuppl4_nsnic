@@ -2792,6 +2792,12 @@
       </spirit:modelParameter>
     </spirit:modelParameters>
   </spirit:model>
+  <spirit:cpus>
+    <spirit:cpu>
+      <spirit:name>top_level_ddr4_0_0_phy</spirit:name>
+      <spirit:addressSpaceRef spirit:addressSpaceRef="dummy"/>
+    </spirit:cpu>
+  </spirit:cpus>
   <spirit:description>PHY for DDR4 interfaces for Ultrascale Architecture</spirit:description>
   <spirit:parameters>
     <spirit:parameter>

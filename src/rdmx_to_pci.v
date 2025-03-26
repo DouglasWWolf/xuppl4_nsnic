@@ -91,6 +91,9 @@ wire[63:0] rdmx_offset;
 reg [63:0] pci_address;
 wire[ 7:0] awlen = imm_payload_cycles - 1;
 
+// This will be true on any input data-cycle that contains an RDMX header
+wire is_header = (cycle_within_packet == 0) & AXIS_IN_TVALID;
+
 // This is the last offset into the host RAM buffer that the current packet will occupy
 wire[63:0] last_offset = rdmx_offset + imm_payload_cycles*64 - 1;
 
@@ -111,9 +114,6 @@ always @* begin
 end
 //=============================================================================
 
-
-// This will be true on any input data-cycle that contains an RDMX header
-wire is_header = (cycle_within_packet == 0) & AXIS_IN_TVALID;
 
 // This is the TREADY signal from the input side of the packet-data FIFO
 wire pdf_in_tready;
