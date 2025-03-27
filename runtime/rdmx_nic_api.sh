@@ -25,10 +25,10 @@ REG_GOOD_PACKETS_L=$((BASE_ADDR +  3 * 4))
          REG_RESET=$((BASE_ADDR + 10 * 4))
 REG_CLEAR_COUNTERS=$((BASE_ADDR + 11 * 4))
 
-# ABM related registers
-REG_ABM_PCI_ADDR_H=$((BASE_ADDR + 20 * 4));
-REG_ABM_PCI_ADDR_L=$((BASE_ADDR + 21 * 4));
-      REG_SEND_ABM=$((BASE_ADDR + 22 * 4));    
+# Transmit-related related registers
+REG_XMIT_SRCADDR_H=$((BASE_ADDR + 20 * 4));
+REG_XMIT_SRCADDR_L=$((BASE_ADDR + 21 * 4));
+    REG_XMIT_START=$((BASE_ADDR + 22 * 4));    
 
 # RTL Developer debug registers
 REG_PACKET_COUNT_H=$((BASE_ADDR + 32 * 4))

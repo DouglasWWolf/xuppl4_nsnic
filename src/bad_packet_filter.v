@@ -72,8 +72,6 @@ wire output_enable = (AXIS_OUT_TUSER == 0) | (MARK_ONLY_MODE == 1);
 // We output data on the output bus whenever it's available from the FIFO
 assign AXIS_OUT_TVALID = (output_enable & feop_out_tvalid);
 
-
-
 //====================================================================================
 // This FIFO holds the incoming packet data
 //====================================================================================
@@ -157,7 +155,7 @@ eop_fifo
    .s_axis_tready(              ),
 
     // This FIFO outputs one entry per packet
-   .m_axis_tdata (AXIS_OUT_TUSER ),
+   .m_axis_tdata (AXIS_OUT_TUSER),
    .m_axis_tvalid(feop_out_tvalid),
    .m_axis_tready(feop_out_tready),
 
